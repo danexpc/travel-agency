@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.DATABASE:library</OriginalElement>
+  <nodes>
+    <node x="156.3571428571429" y="184.0">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.publishers</node>
+    <node x="113.93303571428572" y="-28.482142857142875">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.cities</node>
+    <node x="-112.63392857142856" y="173.0">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.memberships</node>
+    <node x="-78.94642857142856" y="373.0">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.users</node>
+    <node x="381.5" y="151.0">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.authors</node>
+    <node x="100.0" y="734.5535714285716">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.loaned_books</node>
+    <node x="599.8482142857142" y="173.0">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.literature_categories</node>
+    <node x="366.5" y="456.0892857142856">0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.books</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.users" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.memberships" relationship="REFERENCES">
+      <point x="-46.25" y="-138.5" />
+      <point x="-32.696428571428555" y="322.0" />
+      <point x="-50.133928571428555" y="322.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.books" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.publishers" relationship="REFERENCES">
+      <point x="-65.0" y="-105.5" />
+      <point x="399.0" y="322.0" />
+      <point x="250.3571428571429" y="322.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.loaned_books" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.users" relationship="REFERENCES">
+      <point x="-58.5" y="-116.5" />
+      <point x="158.5" y="650.0" />
+      <point x="0.0" y="138.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.books" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.authors" relationship="REFERENCES">
+      <point x="0.0" y="-105.5" />
+      <point x="0.0" y="61.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.publishers" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.cities" relationship="REFERENCES">
+      <point x="0.0" y="-50.5" />
+      <point x="250.3571428571429" y="148.0" />
+      <point x="196.93303571428572" y="148.0" />
+      <point x="0.0" y="61.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.users" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.cities" relationship="REFERENCES">
+      <point x="46.25" y="-138.5" />
+      <point x="59.803571428571445" y="322.0" />
+      <point x="135.5" y="322.0" />
+      <point x="135.5" y="148.0" />
+      <point x="196.93303571428572" y="148.0" />
+      <point x="0.0" y="61.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.books" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.literature_categories" relationship="REFERENCES">
+      <point x="65.0" y="-105.5" />
+      <point x="529.0" y="322.0" />
+      <point x="692.8482142857142" y="322.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.loaned_books" target="0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.books" relationship="REFERENCES">
+      <point x="58.5" y="-116.5" />
+      <point x="275.5" y="650.0" />
+      <point x="464.0" y="650.0" />
+      <point x="0.0" y="105.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.7724137931034483" showDependencies="false" x="318.6043474632845" y="479.0531542056074" />
+  <SelectedNodes>
+    <node>0bc7d0d3-ab0a-4adb-be28-5ca5a5873b74.TABLE:library.public.cities</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
