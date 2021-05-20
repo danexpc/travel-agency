@@ -3,15 +3,14 @@ DROP TABLE IF EXISTS literature_categories CASCADE;
 DROP TABLE IF EXISTS authors CASCADE;
 DROP TABLE IF EXISTS publishers CASCADE;
 DROP TABLE IF EXISTS books CASCADE;
-DROP TABLE IF EXISTS memberships CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS loaned_books CASCADE;
+DROP TABLE IF EXISTS lending_books CASCADE;
 
-DROP TYPE user_role;
-DROP TYPE issuance_type;
+DROP TYPE IF EXISTS user_role;
+DROP TYPE IF EXISTS user_role;
 
-CREATE TYPE user_role AS ENUM ('student', 'librarian', 'administrator');
-CREATE TYPE issuance_type AS ENUM ('membership', 'hall');
+CREATE TYPE user_role AS ENUM ('client', 'librarian', 'administrator');
+CREATE TYPE lending_type AS ENUM ('membership', 'hall');
 
 CREATE TABLE IF NOT EXISTS cities (
   id serial PRIMARY KEY,
@@ -49,12 +48,6 @@ CREATE TABLE IF NOT EXISTS books (
     quantity int default 0
 );
 
-CREATE TABLE IF NOT EXISTS memberships (
-  id serial PRIMARY KEY,
-  issued_date date NOT NULL,
-  expiry_date date NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS users (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -64,19 +57,18 @@ CREATE TABLE IF NOT EXISTS users (
     email varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     phone_number varchar(255),
-    membership_id int REFERENCES memberships(id) NOT NULL,
     is_blocked boolean default false,
-    role user_role default 'student'
+    role user_role default 'client'
 );
 
-CREATE TABLE IF NOT EXISTS loaned_books (
+CREATE TABLE IF NOT EXISTS lending_books (
     id serial PRIMARY KEY,
-    book_id int REFERENCES books(id),
-    user_id int REFERENCES users(id),
-    type issuance_type,
-    date_loaned timestamp,
-    estimated_returned_date timestamp,
+    book_id int REFERENCES books(id) NOT NULL,
+    user_id int REFERENCES users(id) NOT NULL,
+    type lending_type NOT NULL,
+    loaned_date timestamp NOT NULL,
+    estimated_returned_date timestamp NOT NULL,
     real_returned_date timestamp,
-    overdue_fine decimal,
-    is_returned boolean
-)
+    overdue_fine decimal
+);
+
