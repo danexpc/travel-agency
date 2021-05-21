@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS publishers CASCADE;
 DROP TABLE IF EXISTS books CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS lending_books CASCADE;
+DROP TABLE IF EXISTS memberships CASCADE;
 
 DROP TYPE IF EXISTS user_role;
 DROP TYPE IF EXISTS user_role;
@@ -57,14 +58,21 @@ CREATE TABLE IF NOT EXISTS users (
     email varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     phone_number varchar(255),
-    is_blocked boolean default false,
     role user_role default 'client'
+);
+
+CREATE TABLE IF NOT EXISTS memberships (
+  id serial PRIMARY KEY,
+  issued_date date NOT NULL,
+  expiry_date date NOT NULL,
+  user_id int REFERENCES users(id) NOT NULL,
+  is_blocked boolean default false
 );
 
 CREATE TABLE IF NOT EXISTS lending_books (
     id serial PRIMARY KEY,
     book_id int REFERENCES books(id) NOT NULL,
-    user_id int REFERENCES users(id) NOT NULL,
+    membership_id int REFERENCES memberships(id) NOT NULL,
     type lending_type NOT NULL,
     loaned_date timestamp NOT NULL,
     estimated_returned_date timestamp NOT NULL,
