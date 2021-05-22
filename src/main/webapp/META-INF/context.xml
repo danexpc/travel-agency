@@ -1,0 +1,11 @@
+<Context>
+    <Resource name="jdbc/library"
+              auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="postgres" password="12345"
+              driverClassName="org.postgresql.Driver"
+              defaultAutoCommit="false"
+              defaultTransactionIsolation="READ_COMMITTED"
+              url="jdbc:postgresql://localhost:5432/library"/>
+</Context>
