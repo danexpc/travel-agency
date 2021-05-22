@@ -6,8 +6,6 @@ import java.util.Objects;
 
 public class LendingBook extends BaseEntity {
 
-    private static final long serialVersionUID = -6234802342952370600L;
-
     private Book book;
 
     private Membership membership;

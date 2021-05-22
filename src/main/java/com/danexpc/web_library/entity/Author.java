@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class Author extends BaseEntity {
 
-    private static final long serialVersionUID = 4359579741719499416L;
-
     private String name;
 
     private String surname;

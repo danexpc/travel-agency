@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class LiteratureCategory extends BaseEntity {
 
-    private static final long serialVersionUID = 7635612859840600516L;
-
     private String categoryName;
 
     public LiteratureCategory() {

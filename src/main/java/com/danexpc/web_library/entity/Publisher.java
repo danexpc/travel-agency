@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class Publisher extends BaseEntity {
 
-    private static final long serialVersionUID = 3635500484231720545L;
-
     private String publisherName;
 
     private City city;

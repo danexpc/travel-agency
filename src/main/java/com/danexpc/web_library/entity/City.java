@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class City extends BaseEntity {
 
-    private static final long serialVersionUID = -6697599680927919631L;
-
     private String postalCode;
 
     private String cityName;

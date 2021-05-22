@@ -5,8 +5,6 @@ import java.util.Objects;
 
 public class Membership extends BaseEntity {
 
-    private static final long serialVersionUID = -3493504014636653623L;
-
     private Timestamp issuedDate;
 
     private Timestamp expiryDate;

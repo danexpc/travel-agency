@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class Book extends BaseEntity {
 
-    private static final long serialVersionUID = 6624163119082207194L;
-
     private int isbn;
 
     private String bookTitle;
