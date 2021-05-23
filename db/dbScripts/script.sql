@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS books (
     book_title varchar(255) NOT NULL,
     author_id int REFERENCES authors(id) NOT NULL,
     literature_category_id int REFERENCES literature_categories(id) NOT NULL,
-    publisher int REFERENCES publishers(id) NOT NULL,
+    publisher_id int REFERENCES publishers(id) NOT NULL,
     year_published date,
     quantity int default 0
 );
