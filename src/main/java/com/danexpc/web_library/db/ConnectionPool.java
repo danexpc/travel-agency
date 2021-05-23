@@ -9,15 +9,12 @@ import java.sql.SQLException;
 
 public class ConnectionPool {
 
-    private static ConnectionPool instance;
+    private static final ConnectionPool instance = new ConnectionPool();
 
     private ConnectionPool() {
     }
 
-    public static synchronized ConnectionPool getInstance() {
-        if (instance == null) {
-            instance = new ConnectionPool();
-        }
+    public static ConnectionPool getInstance() {
         return instance;
     }
 
