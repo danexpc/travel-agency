@@ -2,31 +2,20 @@ package com.danexpc.web_library.entity;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@AllArgsConstructor
 public class Author implements Identifiable<Integer> {
 
     private Integer id;
 
+    @NonNull
     private String name;
 
+    @NonNull
     private String surname;
 
+    @NonNull
     private String pseudonym;
 
-    public Author(String name, String surname, String pseudonym) {
-        this.name = name;
-        this.surname = surname;
-        this.pseudonym = pseudonym;
-    }
-
-    public Author(int id, String name, String surname, String pseudonym) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.pseudonym = pseudonym;
-    }
 }

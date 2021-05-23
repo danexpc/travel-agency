@@ -5,49 +5,31 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@AllArgsConstructor
 public class LendingBook implements Identifiable<Integer> {
 
     private Integer id;
 
+    @NonNull
     private Book book;
 
+    @NonNull
     private Membership membership;
 
+    @NonNull
     private LendingType type;
 
+    @NonNull
     private LocalDateTime loanedDate;
 
+    @NonNull
     private LocalDateTime estimatedReturnedDate;
 
+    @NonNull
     private LocalDateTime realReturnedDate;
 
+    @NonNull
     private BigDecimal overdueFine;
-
-    public LendingBook(Book book, Membership membership, LendingType type, LocalDateTime loanedDate,
-                       LocalDateTime estimatedReturnedDate, LocalDateTime realReturnedDate, BigDecimal overdueFine) {
-        this.book = book;
-        this.membership = membership;
-        this.type = type;
-        this.loanedDate = loanedDate;
-        this.estimatedReturnedDate = estimatedReturnedDate;
-        this.realReturnedDate = realReturnedDate;
-        this.overdueFine = overdueFine;
-    }
-
-    public LendingBook(int id, Book book, Membership membership, LendingType type, LocalDateTime loanedDate,
-                       LocalDateTime estimatedReturnedDate, LocalDateTime realReturnedDate, BigDecimal overdueFine) {
-        this.id = id;
-        this.book = book;
-        this.membership = membership;
-        this.type = type;
-        this.loanedDate = loanedDate;
-        this.estimatedReturnedDate = estimatedReturnedDate;
-        this.realReturnedDate = realReturnedDate;
-        this.overdueFine = overdueFine;
-    }
 }

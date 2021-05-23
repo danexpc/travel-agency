@@ -2,53 +2,34 @@ package com.danexpc.web_library.entity;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@AllArgsConstructor
 public class User implements Identifiable<Integer> {
 
     private Integer id;
 
+    @NonNull
     private String name;
 
+    @NonNull
     private String surname;
 
+    @NonNull
     private String address;
 
+    @NonNull
     private City city;
 
+    @NonNull
     private String email;
 
+    @NonNull
     private String password;
 
+    @NonNull
     private String phoneNumber;
 
+    @NonNull
     private UserRole role;
-
-    public User(String name, String surname, String address, City city, String email, String password,
-                String phoneNumber, UserRole role) {
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.city = city;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
-
-    public User(int id, String name, String surname, String address, City city, String email, String password,
-                String phoneNumber, UserRole role) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.city = city;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
 }
