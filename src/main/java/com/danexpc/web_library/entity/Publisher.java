@@ -6,21 +6,21 @@ public class Publisher implements Identifiable<Integer> {
 
     private Integer id;
 
-    private String publisherName;
+    private String name;
 
     private City city;
 
     public Publisher() {
     }
 
-    public Publisher(String publisherName, City city) {
-        this.publisherName = publisherName;
+    public Publisher(String name, City city) {
+        this.name = name;
         this.city = city;
     }
 
-    public Publisher(int id, String publisherName, City city) {
+    public Publisher(int id, String name, City city) {
         this.id = id;
-        this.publisherName = publisherName;
+        this.name = name;
         this.city = city;
     }
 
@@ -34,12 +34,12 @@ public class Publisher implements Identifiable<Integer> {
         this.id = id;
     }
 
-    public String getPublisherName() {
-        return publisherName;
+    public String getName() {
+        return name;
     }
 
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public City getCity() {
@@ -56,20 +56,20 @@ public class Publisher implements Identifiable<Integer> {
         if (o == null || getClass() != o.getClass()) return false;
         var publisher = (Publisher) o;
         return id.equals(publisher.id)
-                && Objects.equals(publisherName, publisher.publisherName)
+                && Objects.equals(name, publisher.name)
                 && Objects.equals(city, publisher.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, publisherName, city);
+        return Objects.hash(id, name, city);
     }
 
     @Override
     public String toString() {
         return "Publisher{" +
                 "id=" + id +
-                ", publisherName='" + publisherName + '\'' +
+                ", publisherName='" + name + '\'' +
                 ", city=" + city +
                 '}';
     }

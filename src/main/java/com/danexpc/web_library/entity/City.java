@@ -8,23 +8,23 @@ public class City implements Identifiable<Integer> {
 
     private String postalCode;
 
-    private String cityName;
+    private String name;
 
     private String country;
 
     public City() {
     }
 
-    public City(String postalCode, String cityName, String country) {
+    public City(String postalCode, String name, String country) {
         this.postalCode = postalCode;
-        this.cityName = cityName;
+        this.name = name;
         this.country = country;
     }
 
-    public City(int id, String postalCode, String cityName, String country) {
+    public City(int id, String postalCode, String name, String country) {
         this.id = id;
         this.postalCode = postalCode;
-        this.cityName = cityName;
+        this.name = name;
         this.country = country;
     }
 
@@ -46,12 +46,12 @@ public class City implements Identifiable<Integer> {
         this.postalCode = postalCode;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getName() {
+        return name;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCountry() {
@@ -69,13 +69,13 @@ public class City implements Identifiable<Integer> {
         var city = (City) o;
         return id.equals(city.id)
                 && Objects.equals(postalCode, city.postalCode)
-                && Objects.equals(cityName, city.cityName)
+                && Objects.equals(name, city.name)
                 && Objects.equals(country, city.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, postalCode, cityName, country);
+        return Objects.hash(id, postalCode, name, country);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class City implements Identifiable<Integer> {
         return "City{" +
                 "id=" + id +
                 ", postalCode='" + postalCode + '\'' +
-                ", cityName='" + cityName + '\'' +
+                ", cityName='" + name + '\'' +
                 ", country='" + country + '\'' +
                 '}';
     }

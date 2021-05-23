@@ -8,7 +8,7 @@ public class Book implements Identifiable<Integer> {
 
     private int isbn;
 
-    private String bookTitle;
+    private String title;
 
     private Author author;
 
@@ -21,21 +21,21 @@ public class Book implements Identifiable<Integer> {
     public Book() {
     }
 
-    public Book(int isbn, String bookTitle, Author author, LiteratureCategory category,
+    public Book(int isbn, String title, Author author, LiteratureCategory category,
                 Publisher publisher, int quantity) {
         this.isbn = isbn;
-        this.bookTitle = bookTitle;
+        this.title = title;
         this.author = author;
         this.category = category;
         this.publisher = publisher;
         this.quantity = quantity;
     }
 
-    public Book(int id, int isbn, String bookTitle, Author author, LiteratureCategory category,
+    public Book(int id, int isbn, String title, Author author, LiteratureCategory category,
                 Publisher publisher, int quantity) {
         this.id = id;
         this.isbn = isbn;
-        this.bookTitle = bookTitle;
+        this.title = title;
         this.author = author;
         this.category = category;
         this.publisher = publisher;
@@ -60,12 +60,12 @@ public class Book implements Identifiable<Integer> {
         this.isbn = isbn;
     }
 
-    public String getBookTitle() {
-        return bookTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Author getAuthor() {
@@ -108,7 +108,7 @@ public class Book implements Identifiable<Integer> {
         return id.equals(book.id)
                 && isbn == book.isbn
                 && quantity == book.quantity
-                && Objects.equals(bookTitle, book.bookTitle)
+                && Objects.equals(title, book.title)
                 && Objects.equals(author, book.author)
                 && Objects.equals(category, book.category)
                 && Objects.equals(publisher, book.publisher);
@@ -116,7 +116,7 @@ public class Book implements Identifiable<Integer> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isbn, bookTitle, author, category, publisher, quantity);
+        return Objects.hash(id, isbn, title, author, category, publisher, quantity);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Book implements Identifiable<Integer> {
         return "Book{" +
                 "id=" + id +
                 ", isbn=" + isbn +
-                ", bookTitle='" + bookTitle + '\'' +
+                ", bookTitle='" + title + '\'' +
                 ", author=" + author +
                 ", category=" + category +
                 ", publisher=" + publisher +
