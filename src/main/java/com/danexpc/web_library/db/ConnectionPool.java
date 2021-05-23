@@ -9,9 +9,21 @@ import java.sql.SQLException;
 
 public class ConnectionPool {
 
-    private static final ConnectionPool instance = new ConnectionPool();
+    private static ConnectionPool instance;
 
-    private ConnectionPool() {
+    static {
+        try {
+            instance = new ConnectionPool();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private final DataSource ds;
+
+    private ConnectionPool() throws NamingException {
+        Context cxt = new InitialContext();
+        ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/library");
     }
 
     public static ConnectionPool getInstance() {
@@ -19,15 +31,6 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() throws SQLException {
-        Connection con = null;
-        try {
-            Context cxt = new InitialContext();
-
-            DataSource ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/library");
-            con = ds.getConnection();
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-        return con;
+        return ds.getConnection();
     }
 }
