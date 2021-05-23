@@ -9,13 +9,13 @@ import java.sql.SQLException;
 
 public class ConnectionPool {
 
-    private static ConnectionPool instance;
+    private static final ConnectionPool instance;
 
     static {
         try {
             instance = new ConnectionPool();
         } catch (NamingException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Failed to create a connection pool");
         }
     }
 
