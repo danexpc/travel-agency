@@ -2,7 +2,9 @@ package com.danexpc.web_library.entity;
 
 import java.util.Objects;
 
-public class User extends BaseEntity {
+public class User implements Identifiable<Integer> {
+
+    private Integer id;
 
     private String name;
 
@@ -37,7 +39,7 @@ public class User extends BaseEntity {
 
     public User(int id, String name, String surname, String address, City city, String email, String password,
                 String phoneNumber, UserRole role) {
-        super(id);
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -46,6 +48,16 @@ public class User extends BaseEntity {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.role = role;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -116,32 +128,22 @@ public class User extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var user = (User) o;
-        return Objects.equals(name, user.name) && Objects.equals(surname, user.surname)
-                && Objects.equals(address, user.address) && Objects.equals(city, user.city)
-                && Objects.equals(email, user.email) && Objects.equals(password, user.password)
-                && Objects.equals(phoneNumber, user.phoneNumber) && role == user.role;
+        return id.equals(user.id)
+                && Objects.equals(name, user.name)
+                && Objects.equals(surname, user.surname)
+                && Objects.equals(address, user.address)
+                && Objects.equals(city, user.city)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(phoneNumber, user.phoneNumber)
+                && role == user.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, address, city, email,
-                password, phoneNumber, role);
+        return Objects.hash(id, name, surname, address, city, email, password, phoneNumber, role);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + getId() +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", address='" + address + '\'' +
-                ", city=" + city +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", role=" + role +
-                '}';
-    }
+
 }

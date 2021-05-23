@@ -2,7 +2,9 @@ package com.danexpc.web_library.entity;
 
 import java.util.Objects;
 
-public class LiteratureCategory extends BaseEntity {
+public class LiteratureCategory implements Identifiable<Integer> {
+
+    private Integer id;
 
     private String categoryName;
 
@@ -14,8 +16,18 @@ public class LiteratureCategory extends BaseEntity {
     }
 
     public LiteratureCategory(int id, String categoryName) {
-        super(id);
+        this.id = id;
         this.categoryName = categoryName;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCategoryName() {
@@ -30,20 +42,19 @@ public class LiteratureCategory extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var that = (LiteratureCategory) o;
-        return Objects.equals(categoryName, that.categoryName);
+        return id.equals(that.id) && Objects.equals(categoryName, that.categoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), categoryName);
+        return Objects.hash(id, categoryName);
     }
 
     @Override
     public String toString() {
         return "LiteratureCategory{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", categoryName='" + categoryName + '\'' +
                 '}';
     }

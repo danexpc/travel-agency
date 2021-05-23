@@ -2,7 +2,9 @@ package com.danexpc.web_library.entity;
 
 import java.util.Objects;
 
-public class City extends BaseEntity {
+public class City implements Identifiable<Integer> {
+
+    private Integer id;
 
     private String postalCode;
 
@@ -20,10 +22,20 @@ public class City extends BaseEntity {
     }
 
     public City(int id, String postalCode, String cityName, String country) {
-        super(id);
+        this.id = id;
         this.postalCode = postalCode;
         this.cityName = cityName;
         this.country = country;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPostalCode() {
@@ -54,22 +66,22 @@ public class City extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var city = (City) o;
-        return Objects.equals(postalCode, city.postalCode)
+        return id.equals(city.id)
+                && Objects.equals(postalCode, city.postalCode)
                 && Objects.equals(cityName, city.cityName)
                 && Objects.equals(country, city.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), postalCode, cityName, country);
+        return Objects.hash(id, postalCode, cityName, country);
     }
 
     @Override
     public String toString() {
         return "City{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", postalCode='" + postalCode + '\'' +
                 ", cityName='" + cityName + '\'' +
                 ", country='" + country + '\'' +

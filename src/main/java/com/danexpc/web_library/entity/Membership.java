@@ -3,7 +3,9 @@ package com.danexpc.web_library.entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Membership extends BaseEntity {
+public class Membership implements Identifiable<Integer> {
+
+    private Integer id;
 
     private LocalDateTime issuedDate;
 
@@ -24,11 +26,21 @@ public class Membership extends BaseEntity {
     }
 
     public Membership(int id, LocalDateTime issuedDate, LocalDateTime expiryDate, User user, boolean isBlocked) {
-        super(id);
+        this.id = id;
         this.issuedDate = issuedDate;
         this.expiryDate = expiryDate;
         this.user = user;
         this.isBlocked = isBlocked;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public LocalDateTime getIssuedDate() {
@@ -67,21 +79,23 @@ public class Membership extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var that = (Membership) o;
-        return isBlocked == that.isBlocked && Objects.equals(issuedDate, that.issuedDate)
-                && Objects.equals(expiryDate, that.expiryDate) && Objects.equals(user, that.user);
+        return id.equals(that.id)
+                && isBlocked == that.isBlocked
+                && Objects.equals(issuedDate, that.issuedDate)
+                && Objects.equals(expiryDate, that.expiryDate)
+                && Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), issuedDate, expiryDate, user, isBlocked);
+        return Objects.hash(id, issuedDate, expiryDate, user, isBlocked);
     }
 
     @Override
     public String toString() {
         return "Membership{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", issuedDate=" + issuedDate +
                 ", expiryDate=" + expiryDate +
                 ", user=" + user +

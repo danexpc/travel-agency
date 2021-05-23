@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class LendingBook extends BaseEntity {
+public class LendingBook implements Identifiable<Integer> {
+
+    private Integer id;
 
     private Book book;
 
@@ -36,7 +38,7 @@ public class LendingBook extends BaseEntity {
 
     public LendingBook(int id, Book book, Membership membership, LendingType type, LocalDateTime loanedDate,
                        LocalDateTime estimatedReturnedDate, LocalDateTime realReturnedDate, BigDecimal overdueFine) {
-        super(id);
+        this.id = id;
         this.book = book;
         this.membership = membership;
         this.type = type;
@@ -44,6 +46,16 @@ public class LendingBook extends BaseEntity {
         this.estimatedReturnedDate = estimatedReturnedDate;
         this.realReturnedDate = realReturnedDate;
         this.overdueFine = overdueFine;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Book getBook() {
@@ -106,10 +118,12 @@ public class LendingBook extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var that = (LendingBook) o;
-        return Objects.equals(book, that.book) && Objects.equals(membership, that.membership)
-                && type == that.type && Objects.equals(loanedDate, that.loanedDate)
+        return id.equals(that.id)
+                && Objects.equals(book, that.book)
+                && Objects.equals(membership, that.membership)
+                && type == that.type
+                && Objects.equals(loanedDate, that.loanedDate)
                 && Objects.equals(estimatedReturnedDate, that.estimatedReturnedDate)
                 && Objects.equals(realReturnedDate, that.realReturnedDate)
                 && Objects.equals(overdueFine, that.overdueFine);
@@ -117,14 +131,13 @@ public class LendingBook extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), book, membership, type,
-                loanedDate, estimatedReturnedDate, realReturnedDate, overdueFine);
+        return Objects.hash(id, book, membership, type, loanedDate, estimatedReturnedDate, realReturnedDate, overdueFine);
     }
 
     @Override
     public String toString() {
         return "LendingBook{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", book=" + book +
                 ", membership=" + membership +
                 ", type=" + type +

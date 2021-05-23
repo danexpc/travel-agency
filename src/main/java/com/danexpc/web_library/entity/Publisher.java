@@ -2,7 +2,9 @@ package com.danexpc.web_library.entity;
 
 import java.util.Objects;
 
-public class Publisher extends BaseEntity {
+public class Publisher implements Identifiable<Integer> {
+
+    private Integer id;
 
     private String publisherName;
 
@@ -17,9 +19,19 @@ public class Publisher extends BaseEntity {
     }
 
     public Publisher(int id, String publisherName, City city) {
-        super(id);
+        this.id = id;
         this.publisherName = publisherName;
         this.city = city;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPublisherName() {
@@ -42,21 +54,21 @@ public class Publisher extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var publisher = (Publisher) o;
-        return Objects.equals(publisherName, publisher.publisherName)
+        return id.equals(publisher.id)
+                && Objects.equals(publisherName, publisher.publisherName)
                 && Objects.equals(city, publisher.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), publisherName, city);
+        return Objects.hash(id, publisherName, city);
     }
 
     @Override
     public String toString() {
         return "Publisher{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", publisherName='" + publisherName + '\'' +
                 ", city=" + city +
                 '}';

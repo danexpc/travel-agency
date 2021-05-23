@@ -2,7 +2,9 @@ package com.danexpc.web_library.entity;
 
 import java.util.Objects;
 
-public class Author extends BaseEntity {
+public class Author implements Identifiable<Integer> {
+
+    private Integer id;
 
     private String name;
 
@@ -20,10 +22,20 @@ public class Author extends BaseEntity {
     }
 
     public Author(int id, String name, String surname, String pseudonym) {
-        super(id);
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.pseudonym = pseudonym;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,21 +66,22 @@ public class Author extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var author = (Author) o;
-        return Objects.equals(name, author.name) && Objects.equals(surname, author.surname)
+        return id.equals(author.id)
+                && Objects.equals(name, author.name)
+                && Objects.equals(surname, author.surname)
                 && Objects.equals(pseudonym, author.pseudonym);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, pseudonym);
+        return Objects.hash(id, name, surname, pseudonym);
     }
 
     @Override
     public String toString() {
         return "Author{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", pseudonym='" + pseudonym + '\'' +

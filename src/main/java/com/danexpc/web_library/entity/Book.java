@@ -2,7 +2,9 @@ package com.danexpc.web_library.entity;
 
 import java.util.Objects;
 
-public class Book extends BaseEntity {
+public class Book implements Identifiable<Integer> {
+
+    private Integer id;
 
     private int isbn;
 
@@ -31,13 +33,23 @@ public class Book extends BaseEntity {
 
     public Book(int id, int isbn, String bookTitle, Author author, LiteratureCategory category,
                 Publisher publisher, int quantity) {
-        super(id);
+        this.id = id;
         this.isbn = isbn;
         this.bookTitle = bookTitle;
         this.author = author;
         this.category = category;
         this.publisher = publisher;
         this.quantity = quantity;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getIsbn() {
@@ -92,9 +104,10 @@ public class Book extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         var book = (Book) o;
-        return isbn == book.isbn && quantity == book.quantity
+        return id.equals(book.id)
+                && isbn == book.isbn
+                && quantity == book.quantity
                 && Objects.equals(bookTitle, book.bookTitle)
                 && Objects.equals(author, book.author)
                 && Objects.equals(category, book.category)
@@ -103,14 +116,13 @@ public class Book extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), isbn, bookTitle, author, category,
-                publisher, quantity);
+        return Objects.hash(id, isbn, bookTitle, author, category, publisher, quantity);
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", isbn=" + isbn +
                 ", bookTitle='" + bookTitle + '\'' +
                 ", author=" + author +
