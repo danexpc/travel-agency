@@ -15,7 +15,7 @@ public class ConnectionPool {
         try {
             instance = new ConnectionPool();
         } catch (NamingException e) {
-            throw new IllegalStateException("Failed to create a connection pool");
+            throw new IllegalStateException("Failed to create a connection pool", e);
         }
     }
 
