@@ -1,13 +1,13 @@
 package com.danexpc.web_library.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Membership extends BaseEntity {
 
-    private Timestamp issuedDate;
+    private LocalDateTime issuedDate;
 
-    private Timestamp expiryDate;
+    private LocalDateTime expiryDate;
 
     private User user;
 
@@ -16,14 +16,14 @@ public class Membership extends BaseEntity {
     public Membership() {
     }
 
-    public Membership(Timestamp issuedDate, Timestamp expiryDate, User user, boolean isBlocked) {
+    public Membership(LocalDateTime issuedDate, LocalDateTime expiryDate, User user, boolean isBlocked) {
         this.issuedDate = issuedDate;
         this.expiryDate = expiryDate;
         this.user = user;
         this.isBlocked = isBlocked;
     }
 
-    public Membership(int id, Timestamp issuedDate, Timestamp expiryDate, User user, boolean isBlocked) {
+    public Membership(int id, LocalDateTime issuedDate, LocalDateTime expiryDate, User user, boolean isBlocked) {
         super(id);
         this.issuedDate = issuedDate;
         this.expiryDate = expiryDate;
@@ -31,19 +31,19 @@ public class Membership extends BaseEntity {
         this.isBlocked = isBlocked;
     }
 
-    public Timestamp getIssuedDate() {
+    public LocalDateTime getIssuedDate() {
         return issuedDate;
     }
 
-    public void setIssuedDate(Timestamp issuedDate) {
+    public void setIssuedDate(LocalDateTime issuedDate) {
         this.issuedDate = issuedDate;
     }
 
-    public Timestamp getExpiryDate() {
+    public LocalDateTime getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Timestamp expiryDate) {
+    public void setExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
     }
 

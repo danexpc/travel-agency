@@ -1,7 +1,7 @@
 package com.danexpc.web_library.entity;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class LendingBook extends BaseEntity {
@@ -12,19 +12,19 @@ public class LendingBook extends BaseEntity {
 
     private LendingType type;
 
-    private Timestamp loanedDate;
+    private LocalDateTime loanedDate;
 
-    private Timestamp estimatedReturnedDate;
+    private LocalDateTime estimatedReturnedDate;
 
-    private Timestamp realReturnedDate;
+    private LocalDateTime realReturnedDate;
 
     private BigDecimal overdueFine;
 
     public LendingBook() {
     }
 
-    public LendingBook(Book book, Membership membership, LendingType type, Timestamp loanedDate,
-                       Timestamp estimatedReturnedDate, Timestamp realReturnedDate, BigDecimal overdueFine) {
+    public LendingBook(Book book, Membership membership, LendingType type, LocalDateTime loanedDate,
+                       LocalDateTime estimatedReturnedDate, LocalDateTime realReturnedDate, BigDecimal overdueFine) {
         this.book = book;
         this.membership = membership;
         this.type = type;
@@ -34,8 +34,8 @@ public class LendingBook extends BaseEntity {
         this.overdueFine = overdueFine;
     }
 
-    public LendingBook(int id, Book book, Membership membership, LendingType type, Timestamp loanedDate,
-                       Timestamp estimatedReturnedDate, Timestamp realReturnedDate, BigDecimal overdueFine) {
+    public LendingBook(int id, Book book, Membership membership, LendingType type, LocalDateTime loanedDate,
+                       LocalDateTime estimatedReturnedDate, LocalDateTime realReturnedDate, BigDecimal overdueFine) {
         super(id);
         this.book = book;
         this.membership = membership;
@@ -70,27 +70,27 @@ public class LendingBook extends BaseEntity {
         this.type = type;
     }
 
-    public Timestamp getLoanedDate() {
+    public LocalDateTime getLoanedDate() {
         return loanedDate;
     }
 
-    public void setLoanedDate(Timestamp loanedDate) {
+    public void setLoanedDate(LocalDateTime loanedDate) {
         this.loanedDate = loanedDate;
     }
 
-    public Timestamp getEstimatedReturnedDate() {
+    public LocalDateTime getEstimatedReturnedDate() {
         return estimatedReturnedDate;
     }
 
-    public void setEstimatedReturnedDate(Timestamp estimatedReturnedDate) {
+    public void setEstimatedReturnedDate(LocalDateTime estimatedReturnedDate) {
         this.estimatedReturnedDate = estimatedReturnedDate;
     }
 
-    public Timestamp getRealReturnedDate() {
+    public LocalDateTime getRealReturnedDate() {
         return realReturnedDate;
     }
 
-    public void setRealReturnedDate(Timestamp realReturnedDate) {
+    public void setRealReturnedDate(LocalDateTime realReturnedDate) {
         this.realReturnedDate = realReturnedDate;
     }
 
