@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tour implements Identifiable<Integer> {
+public class TourModel implements Identifiable<Integer> {
 
     private Integer id;
 

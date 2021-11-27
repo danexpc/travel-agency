@@ -5,22 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order implements Identifiable<Integer> {
+public class LocationModel implements Identifiable<Integer> {
 
     private Integer id;
 
-    private Integer userId;
+    private String note;
 
-    private Integer tourId;
+    private String address;
 
-    private Integer orderStatus;
+    private String street;
 
-    private Double discount;
+    private String city;
 
-    private BigDecimal finalPrice;
+    private String country;
 }

@@ -8,17 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Location implements Identifiable<Integer> {
+public class HotelModel implements Identifiable<Integer> {
 
     private Integer id;
 
-    private String note;
+    private Integer locationId;
 
-    private String address;
+    private String name;
 
-    private String street;
+    private String description;
 
-    private String city;
-
-    private String country;
+    private Integer type;
 }

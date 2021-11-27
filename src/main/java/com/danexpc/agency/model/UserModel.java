@@ -8,15 +8,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Hotel implements Identifiable<Integer> {
+public class UserModel implements Identifiable<Integer> {
 
     private Integer id;
 
-    private Integer locationId;
+    private String email;
 
-    private String name;
+    private String password;
 
-    private String description;
+    private String firstName;
+
+    private String lastName;
+
+    private String city;
+
+    private Boolean isBlocked;
 
     private Integer type;
 }
