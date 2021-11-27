@@ -1,82 +1,52 @@
-DROP TABLE IF EXISTS cities CASCADE;
-DROP TABLE IF EXISTS literature_categories CASCADE;
-DROP TABLE IF EXISTS authors CASCADE;
-DROP TABLE IF EXISTS publishers CASCADE;
-DROP TABLE IF EXISTS books CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS lending_books CASCADE;
-DROP TABLE IF EXISTS memberships CASCADE;
-
-DROP TYPE IF EXISTS user_role;
-DROP TYPE IF EXISTS user_role;
-
-CREATE TYPE user_role AS ENUM ('client', 'librarian', 'administrator');
-CREATE TYPE lending_type AS ENUM ('membership', 'hall');
-
-CREATE TABLE IF NOT EXISTS cities (
-  id serial PRIMARY KEY,
-  postal_code varchar(255) NOT NULL UNIQUE,
-  city_name varchar(255) NOT NULL,
-  country varchar(255) NOT NULL UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS literature_categories (
-  id serial PRIMARY KEY,
-  category_name varchar(255) NOT NULL UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS authors (
-  id serial PRIMARY KEY,
-  name varchar(255) NOT NULL,
-  surname varchar(255) NOT NULL,
-  pseudonym varchar(255)
-);
-
-CREATE TABLE IF NOT EXISTS publishers (
-  id serial PRIMARY KEY,
-  publisher_name varchar(255) NOT NULL,
-  city_id int REFERENCES cities(id)
-);
-
-CREATE TABLE IF NOT EXISTS books (
-    id int PRIMARY KEY,
-    isbn int UNIQUE,
-    book_title varchar(255) NOT NULL,
-    author_id int REFERENCES authors(id) NOT NULL,
-    literature_category_id int REFERENCES literature_categories(id) NOT NULL,
-    publisher_id int REFERENCES publishers(id) NOT NULL,
-    year_published date,
-    quantity int default 0
-);
-
 CREATE TABLE IF NOT EXISTS users (
-    id serial PRIMARY KEY,
+                                     id int PRIMARY KEY,
+                                     email varchar(255) NOT NULL UNIQUE,
+    password text NOT NULL,
+    first_name varchar(255),
+    last_name varchar(255),
+    city varchar(255),
+    is_blocked bool DEFAULT false,
+    type int
+    );
+
+CREATE TABLE IF NOT EXISTS locations (
+                                         id int PRIMARY KEY,
+                                         note varchar(255) NOT NULL UNIQUE,
+    address text NOT NULL,
+    street varchar(255) NOT NULL,
+    city varchar(255) NOT NULL,
+    country varchar(255) NOT NULL
+    );
+
+CREATE TABLE IF NOT EXISTS hotels (
+                                      id int PRIMARY KEY,
+                                      location_id int REFERENCES locations(id) NOT NULL,
     name varchar(255) NOT NULL,
-    surname varchar(255) NOT NULL,
-    address varchar(255),
-    city_id int REFERENCES cities(id),
-    email varchar(255) NOT NULL,
-    password varchar(255) NOT NULL,
-    phone_number varchar(255),
-    role user_role default 'client'
-);
+    description text,
+    type int NOT NULL
+    );
 
-CREATE TABLE IF NOT EXISTS memberships (
-  id serial PRIMARY KEY,
-  issued_date date NOT NULL,
-  expiry_date date NOT NULL,
-  user_id int REFERENCES users(id) NOT NULL,
-  is_blocked boolean default false
-);
+CREATE TABLE IF NOT EXISTS tours (
+                                     id int PRIMARY KEY,
+                                     start_location_id int REFERENCES locations(id),
+    hotel_id int REFERENCES hotels(id),
+    name varchar(255) NOT NULL,
+    description text,
+    type int,
+    price decimal,
+    departure_date timestamp WITHOUT TIME ZONE,
+    duration bigint,
+    active bool DEFAULT false,
+    is_on_fire bool DEFAULT false,
+    total_places_qty int,
+    remaining_places_qty int
+    );
 
-CREATE TABLE IF NOT EXISTS lending_books (
-    id serial PRIMARY KEY,
-    book_id int REFERENCES books(id) NOT NULL,
-    membership_id int REFERENCES memberships(id) NOT NULL,
-    type lending_type NOT NULL,
-    loaned_date timestamp NOT NULL,
-    estimated_returned_date timestamp NOT NULL,
-    real_returned_date timestamp,
-    overdue_fine decimal
-);
-
+CREATE TABLE IF NOT EXISTS orders (
+                                      id int PRIMARY KEY,
+                                      user_id int REFERENCES users(id) NOT NULL,
+    tour_id int REFERENCES tours(id) NOT NULL,
+    status int NOT NULL,
+    discount float,
+    final_price decimal
+    )

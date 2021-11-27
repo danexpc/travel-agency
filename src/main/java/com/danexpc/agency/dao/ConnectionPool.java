@@ -1,4 +1,4 @@
-package com.danexpc.web_library.db;
+package com.danexpc.agency.dao;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -23,7 +23,7 @@ public class ConnectionPool {
 
     private ConnectionPool() throws NamingException {
         Context cxt = new InitialContext();
-        ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/library");
+        ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/agency");
     }
 
     public static ConnectionPool getInstance() {

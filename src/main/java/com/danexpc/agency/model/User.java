@@ -1,6 +1,10 @@
-package com.danexpc.web_library.entity;
+package com.danexpc.agency.model;
 
-import lombok.*;
+import com.danexpc.agency.constants.UserRole;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +21,6 @@ public class User implements Identifiable<Integer> {
 
     @NonNull
     private String address;
-
-    @NonNull
-    private City city;
 
     @NonNull
     private String email;

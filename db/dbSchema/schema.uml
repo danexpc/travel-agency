@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>fca041a4-868d-4dba-b5c9-914572e2a838</OriginalElement>
+  <nodes>
+    <node x="247.75" y="219.0">fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.hotels</node>
+    <node x="203.5" y="0.0">fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.locations</node>
+    <node x="0.0" y="471.0">fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.users</node>
+    <node x="92.25" y="787.0">fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.orders</node>
+    <node x="180.0" y="416.0">fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.tours</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.tours" target="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.hotels" relationship="REFERENCES">
+      <point x="47.75" y="-160.5" />
+      <point x="323.25" y="390.0" />
+      <point x="313.75" y="390.0" />
+      <point x="0.0" y="72.5" />
+    </edge>
+    <edge source="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.hotels" target="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.locations" relationship="REFERENCES">
+      <point x="0.0" y="-72.5" />
+      <point x="313.75" y="193.0" />
+      <point x="311.5" y="193.0" />
+      <point x="36.0" y="83.5" />
+    </edge>
+    <edge source="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.orders" target="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.users" relationship="REFERENCES">
+      <point x="-42.75" y="-83.5" />
+      <point x="135.0" y="762.0" />
+      <point x="80.0" y="762.0" />
+      <point x="0.0" y="105.5" />
+    </edge>
+    <edge source="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.tours" target="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.locations" relationship="REFERENCES">
+      <point x="-47.75" y="-160.5" />
+      <point x="227.75" y="390.0" />
+      <point x="237.25" y="390.0" />
+      <point x="237.25" y="193.0" />
+      <point x="239.5" y="193.0" />
+      <point x="-36.0" y="83.5" />
+    </edge>
+    <edge source="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.orders" target="fca041a4-868d-4dba-b5c9-914572e2a838.TABLE:postgres.public.tours" relationship="REFERENCES">
+      <point x="42.75" y="-83.5" />
+      <point x="220.5" y="762.0" />
+      <point x="275.5" y="762.0" />
+      <point x="0.0" y="160.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.6356262833675564" showDependencies="false" x="385.7162709725616" y="460.9505320397052" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

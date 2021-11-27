@@ -1,4 +1,4 @@
-package com.danexpc.web_library.entity;
+package com.danexpc.agency.model;
 
 public interface Identifiable<T> {
 
