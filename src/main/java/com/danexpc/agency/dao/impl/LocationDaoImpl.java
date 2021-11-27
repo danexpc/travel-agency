@@ -3,7 +3,6 @@ package com.danexpc.agency.dao.impl;
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.LocationDao;
 import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
-import com.danexpc.agency.model.HotelModel;
 import com.danexpc.agency.model.LocationModel;
 
 import java.sql.Connection;

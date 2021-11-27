@@ -20,7 +20,7 @@ public class OrderModel implements Identifiable<Integer> {
 
     private Integer orderStatus;
 
-    private Double discount;
+    private Float discount;
 
     private BigDecimal finalPrice;
 }
