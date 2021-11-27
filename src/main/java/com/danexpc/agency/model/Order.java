@@ -5,24 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Identifiable<Integer> {
+public class Order implements Identifiable<Integer> {
 
     private Integer id;
 
-    private String email;
+    private Integer userId;
 
-    private String password;
+    private Integer tourId;
 
-    private String firstName;
+    private Integer orderStatus;
 
-    private String lastName;
+    private Double discount;
 
-    private String city;
-
-    private Boolean isBlocked;
-
-    private Integer type;
+    private BigDecimal finalPrice;
 }

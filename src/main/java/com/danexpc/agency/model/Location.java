@@ -8,21 +8,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Identifiable<Integer> {
+public class Location implements Identifiable<Integer> {
 
     private Integer id;
 
-    private String email;
+    private String note;
 
-    private String password;
+    private String address;
 
-    private String firstName;
-
-    private String lastName;
+    private String street;
 
     private String city;
 
-    private Boolean isBlocked;
-
-    private Integer type;
+    private String country;
 }
