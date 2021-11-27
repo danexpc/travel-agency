@@ -26,7 +26,7 @@ public class HotelDaoImpl implements HotelDao {
 
     private final String DELETE_HOTEL_BY_ID = "DELETE FROM hotels WHERE id=?;";
 
-    protected HotelModel buildHotelModel(ResultSet resultSet) throws SQLException {
+    protected HotelModel buildModel(ResultSet resultSet) throws SQLException {
         HotelModel model = new HotelModel();
         model.setId(resultSet.getInt("id"));
         model.setLocationId(resultSet.getInt("location_id"));
@@ -57,7 +57,7 @@ public class HotelDaoImpl implements HotelDao {
                 throw new EntityNotFoundDaoException();
             }
 
-            resModel = buildHotelModel(resultSet);
+            resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
             connectionPool.rollback(connection);
@@ -91,7 +91,7 @@ public class HotelDaoImpl implements HotelDao {
                 throw new EntityNotFoundDaoException();
             }
 
-            resModel = buildHotelModel(resultSet);
+            resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
             connectionPool.rollback(connection);
@@ -121,7 +121,7 @@ public class HotelDaoImpl implements HotelDao {
                 throw new EntityNotFoundDaoException();
             }
 
-            resModel = buildHotelModel(resultSet);
+            resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
             connectionPool.rollback(connection);
@@ -147,7 +147,7 @@ public class HotelDaoImpl implements HotelDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                resModel.add(buildHotelModel(resultSet));
+                resModel.add(buildModel(resultSet));
             }
         } catch (SQLException e) {
             // todo log
@@ -178,7 +178,7 @@ public class HotelDaoImpl implements HotelDao {
                 throw new EntityNotFoundDaoException();
             }
 
-            resModel = buildHotelModel(resultSet);
+            resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
             connectionPool.rollback(connection);
