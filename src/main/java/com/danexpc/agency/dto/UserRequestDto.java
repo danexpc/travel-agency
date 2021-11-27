@@ -11,4 +11,18 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDto {
+
+    private String email;
+
+    private String password;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String city;
+
+    private Boolean isBlocked;
+
+    private Integer type;
 }

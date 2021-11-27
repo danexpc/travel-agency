@@ -11,4 +11,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationRequestDto {
+
+    private String note;
+
+    private String address;
+
+    private String street;
+
+    private String city;
+
+    private String country;
 }

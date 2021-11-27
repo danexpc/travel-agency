@@ -1,15 +1,18 @@
-package com.danexpc.agency;
+package com.danexpc.agency.controller;
 
-import java.io.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "orderServlet", value = "/orders")
+public class OrderController extends HttpServlet {
     private String message;
 
     public void init() {
-        message = "Hello World!";
+        message = "Hello Orders!";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
