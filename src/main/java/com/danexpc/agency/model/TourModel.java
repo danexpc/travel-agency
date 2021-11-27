@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class TourModel implements Identifiable<Integer> {
 
     private BigDecimal price;
 
-    private Long departureDate;
+    private LocalDateTime departureDate;
 
     private Long duration;
 
