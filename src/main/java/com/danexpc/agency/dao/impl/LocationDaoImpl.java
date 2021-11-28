@@ -38,7 +38,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public LocationModel create(LocationModel model) throws EntityNotFoundDaoException {
+    public void create(LocationModel model) throws EntityNotFoundDaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -68,7 +68,6 @@ public class LocationDaoImpl implements LocationDao {
             connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
-        return resModel;
     }
 
     @Override

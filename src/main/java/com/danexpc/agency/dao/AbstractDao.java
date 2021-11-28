@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AbstractDao<T, ID> {
 
-    T create(T model) throws EntityNotFoundDaoException;
+    void create(T model) throws EntityNotFoundDaoException;
 
     T update(T model) throws EntityNotFoundDaoException;
 

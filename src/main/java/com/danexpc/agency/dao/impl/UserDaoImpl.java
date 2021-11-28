@@ -3,15 +3,12 @@ package com.danexpc.agency.dao.impl;
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.UserDao;
 import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
-import com.danexpc.agency.model.OrderModel;
-import com.danexpc.agency.model.TourModel;
 import com.danexpc.agency.model.UserModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +40,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserModel create(UserModel model) throws EntityNotFoundDaoException {
+    public void create(UserModel model) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        UserModel resModel = null;
+        int resultSet;
 
         try {
             connection = connectionPool.getConnection();
@@ -60,22 +55,19 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(5, model.getCity());
             preparedStatement.setBoolean(6, model.getIsBlocked());
             preparedStatement.setInt(7, model.getType());
-            resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeUpdate();
 
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            System.out.println(resultSet);
         } catch (SQLException e) {
+            System.out.println(e);
             // todo log
             connectionPool.rollback(connection);
             // todo throw exception
         } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
+            System.out.println("finally");
+            connectionPool.commitAndClose(connection, preparedStatement);
         }
 
-        return resModel;
     }
 
     @Override
@@ -96,7 +88,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(5, model.getCity());
             preparedStatement.setBoolean(6, model.getIsBlocked());
             preparedStatement.setInt(7, model.getType());
-            preparedStatement.setInt(7, model.getId());
+            preparedStatement.setInt(8, model.getId());
             resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {

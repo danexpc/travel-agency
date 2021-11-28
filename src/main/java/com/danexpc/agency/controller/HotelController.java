@@ -1,13 +1,11 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.UserRequestDto;
-import com.danexpc.agency.dto.UserResponseDto;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
-import com.danexpc.agency.service.UserService;
+import com.danexpc.agency.dto.HotelRequestDto;
+import com.danexpc.agency.dto.HotelResponseDto;
+import com.danexpc.agency.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,9 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "UserServlet", value = "/users/*")
-public class UserController extends HttpServlet {
-    private final UserService userService = new UserService();
+@WebServlet(name = "HotelController", value = "/hotels/*")
+public class HotelController {
+    private final HotelService hotelService = new HotelService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
@@ -33,14 +31,14 @@ public class UserController extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
 
-    public void doGetUsers(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetLocations(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<UserResponseDto> dtos = userService.getAllUsers();
+        List<HotelResponseDto> dtos = hotelService.getAllHotels();
 
         String json = objectMapper.writeValueAsString(dtos);
 
@@ -50,17 +48,17 @@ public class UserController extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    public void doGetUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         String uri = request.getRequestURI();
 
-        Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
+        Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            UserResponseDto dto = userService.getUserById(Integer.getInteger(m.group(1)));
+            HotelResponseDto dto = hotelService.getHotelById(Integer.getInteger(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -71,46 +69,45 @@ public class UserController extends HttpServlet {
         }
     }
 
-    public void doCreateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doCreateLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(json);
 
-        UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
+        HotelRequestDto dto = objectMapper.readValue(json, HotelRequestDto.class);
+        System.out.println(dto);
 
-        try {
-            userService.createUser(dto);
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        } catch (EntityNotFoundDaoException e) {
-            // todo handle exception
-            e.printStackTrace();
-        }
+        hotelService.createHotel(dto);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
-    public void doUpdateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doUpdateLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(json);
 
-        UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
+        HotelRequestDto dto = objectMapper.readValue(json, HotelRequestDto.class);
+        System.out.println(dto);
 
         String uri = request.getRequestURI();
 
-        Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
+        Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            userService.updateUser(Integer.getInteger(m.group(1)), dto);
+            hotelService.updateHotel(Integer.getInteger(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
 
-    public void doDeleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDeleteLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
+        Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            userService.deleteUserById(Integer.getInteger(m.group(1)));
+            hotelService.deleteHotelById(Integer.getInteger(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

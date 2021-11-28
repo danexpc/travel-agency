@@ -38,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public OrderModel create(OrderModel model) throws EntityNotFoundDaoException {
+    public void create(OrderModel model) throws EntityNotFoundDaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -68,7 +68,6 @@ public class OrderDaoImpl implements OrderDao {
             connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
-        return resModel;
     }
 
     @Override

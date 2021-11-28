@@ -5,6 +5,8 @@ import com.danexpc.agency.dao.UserDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.UserRequestDto;
 import com.danexpc.agency.dto.UserResponseDto;
+import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
+import com.danexpc.agency.model.UserModel;
 
 import java.util.List;
 
@@ -14,11 +16,21 @@ public class UserService {
 
     private final UserDao userDao = factory.getUserDao();
 
-    public void createUser(UserRequestDto dto) {
+    public void createUser(UserRequestDto dto) throws EntityNotFoundDaoException {
+        UserModel model = new UserModel();
 
+        model.setEmail(dto.getEmail());
+        model.setPassword(dto.getPassword());
+        model.setFirstName(dto.getFirstName());
+        model.setLastName(dto.getLastName());
+        model.setCity(dto.getCity());
+        model.setType(dto.getType());
+        model.setIsBlocked(dto.getIsBlocked());
+
+        userDao.create(model);
     }
 
-    public void updateUser(UserRequestDto dto) {
+    public void updateUser(Integer id, UserRequestDto dto) {
 
     }
 

@@ -18,7 +18,7 @@ public class OrderService {
 
     }
 
-    public void updateOrder(OrderRequestDto dto) {
+    public void updateOrder(Integer id, OrderRequestDto dto) {
 
     }
 

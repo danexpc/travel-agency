@@ -19,7 +19,7 @@ public class TourService {
 
     }
 
-    public void updateTour(TourRequestDto dto) {
+    public void updateTour(Integer id, TourRequestDto dto) {
 
     }
 

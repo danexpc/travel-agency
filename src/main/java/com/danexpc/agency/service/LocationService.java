@@ -18,7 +18,7 @@ public class LocationService {
 
     }
 
-    public void updateLocation(LocationRequestDto dto) {
+    public void updateLocation(Integer id, LocationRequestDto dto) {
 
     }
 

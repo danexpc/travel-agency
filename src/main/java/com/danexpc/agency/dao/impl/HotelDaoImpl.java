@@ -37,7 +37,7 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public HotelModel create(HotelModel model) throws EntityNotFoundDaoException {
+    public void create(HotelModel model) throws EntityNotFoundDaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -66,7 +66,6 @@ public class HotelDaoImpl implements HotelDao {
             connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
-        return resModel;
     }
 
     @Override

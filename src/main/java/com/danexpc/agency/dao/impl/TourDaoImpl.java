@@ -50,7 +50,7 @@ public class TourDaoImpl implements TourDao {
     }
 
     @Override
-    public TourModel create(TourModel model) throws EntityNotFoundDaoException {
+    public void create(TourModel model) throws EntityNotFoundDaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -87,7 +87,6 @@ public class TourDaoImpl implements TourDao {
             connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
-        return resModel;
     }
 
     @Override

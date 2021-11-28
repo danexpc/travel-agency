@@ -18,7 +18,7 @@ public class HotelService {
 
     }
 
-    public void updateHotel(HotelRequestDto dto) {
+    public void updateHotel(Integer id, HotelRequestDto dto) {
 
     }
 

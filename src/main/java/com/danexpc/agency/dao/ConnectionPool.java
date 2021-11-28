@@ -65,6 +65,28 @@ public class ConnectionPool {
         }
     }
 
+    public void commitAndClose(Connection con, PreparedStatement pst) {
+        if (con != null) {
+            try {
+                con.commit();
+            } catch (SQLException ex) {
+                // todo log
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                // todo log
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                // todo log
+            }
+        }
+    }
+
     public void rollback(Connection con) {
         if (con == null) return;
         try {
