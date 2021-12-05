@@ -23,7 +23,7 @@ public class OrderResponseDto extends OrderRequestDto implements Identifiable<In
         OrderResponseDto dto = new OrderResponseDto();
         dto.setId(model.getId());
         dto.setUserId(model.getUserId());
-        dto.setTourId(model.getTourId());
+        dto.setScheduleId(model.getScheduleId());
         dto.setOrderStatus(model.getOrderStatus());
         dto.setDiscount(model.getDiscount());
         dto.setFinalPrice(model.getFinalPrice());

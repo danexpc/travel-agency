@@ -3,12 +3,13 @@ package com.danexpc.agency.service;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.TourDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
-import com.danexpc.agency.dto.request.ScheduleRequestDto;
 import com.danexpc.agency.dto.request.TourRequestDto;
-import com.danexpc.agency.dto.response.ScheduleResponseDto;
 import com.danexpc.agency.dto.response.TourResponseDto;
+import com.danexpc.agency.model.TourModel;
+import lombok.SneakyThrows;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TourService {
 
@@ -18,21 +19,31 @@ public class TourService {
 
 
     public void createTour(TourRequestDto dto) {
+        TourModel model = dto.buildModel();
 
+        tourDao.create(model);
     }
 
     public void updateTour(Integer id, TourRequestDto dto) {
-
+        TourModel model = dto.buildModel();
+        model.setId(id);
+        tourDao.update(model);
     }
 
+    @SneakyThrows
     public TourResponseDto getTourById(Integer id) {
-        return null;
+        TourModel model = tourDao.findById(id);
+        return TourResponseDto.fromModel(model);
     }
 
+    @SneakyThrows
     public List<TourResponseDto> getAllTours() {
-        return null;
+        List<TourModel> models = tourDao.findAll();
+
+        return models.stream().parallel().map(TourResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }
 
     public void deleteTourById(Integer id) {
+        tourDao.deleteById(id);
     }
 }

@@ -5,10 +5,11 @@ import com.danexpc.agency.dao.UserDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.UserRequestDto;
 import com.danexpc.agency.dto.response.UserResponseDto;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
 import com.danexpc.agency.model.UserModel;
+import lombok.SneakyThrows;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -16,32 +17,31 @@ public class UserService {
 
     private final UserDao userDao = factory.getUserDao();
 
-    public void createUser(UserRequestDto dto) throws EntityNotFoundDaoException {
-        UserModel model = new UserModel();
-
-        model.setEmail(dto.getEmail());
-        model.setPassword(dto.getPassword());
-        model.setFirstName(dto.getFirstName());
-        model.setLastName(dto.getLastName());
-        model.setCity(dto.getCity());
-        model.setType(dto.getType());
-        model.setIsBlocked(dto.getIsBlocked());
-
+    public void createUser(UserRequestDto dto) {
+        UserModel model = dto.buildModel();
         userDao.create(model);
     }
 
     public void updateUser(Integer id, UserRequestDto dto) {
-
+        UserModel model = dto.buildModel();
+        model.setId(id);
+        userDao.update(model);
     }
 
+    @SneakyThrows
     public UserResponseDto getUserById(Integer id) {
-        return null;
+        UserModel model = userDao.findById(id);
+        return UserResponseDto.fromModel(model);
     }
 
+    @SneakyThrows
     public List<UserResponseDto> getAllUsers() {
-        return null;
+        List<UserModel> models = userDao.findAll();
+
+        return models.stream().parallel().map(UserResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }
 
     public void deleteUserById(Integer id) {
+        userDao.deleteById(id);
     }
 }

@@ -16,7 +16,7 @@ public class OrderModel implements Identifiable<Integer> {
 
     private Integer userId;
 
-    private Integer tourId;
+    private Integer scheduleId;
 
     private Integer orderStatus;
 

@@ -17,7 +17,7 @@ public class OrderRequestDto {
 
     Integer userId;
 
-    Integer tourId;
+    Integer scheduleId;
 
     Integer orderStatus;
 
@@ -28,7 +28,7 @@ public class OrderRequestDto {
     public OrderModel buildModel() {
         OrderModel model = new OrderModel();
         model.setUserId(userId);
-        model.setTourId(tourId);
+        model.setScheduleId(scheduleId);
         model.setOrderStatus(orderStatus);
         model.setDiscount(discount);
         model.setFinalPrice(finalPrice);

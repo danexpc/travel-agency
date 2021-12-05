@@ -78,13 +78,8 @@ public class UserController extends HttpServlet {
 
         UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
 
-        try {
-            userService.createUser(dto);
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        } catch (EntityNotFoundDaoException e) {
-            // todo handle exception
-            e.printStackTrace();
-        }
+        userService.createUser(dto);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
     public void doUpdateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
