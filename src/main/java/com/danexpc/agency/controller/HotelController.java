@@ -109,10 +109,8 @@ public class HotelController {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         HotelRequestDto dto = objectMapper.readValue(json, HotelRequestDto.class);
-        System.out.println(dto);
 
         hotelService.createHotel(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -125,7 +123,6 @@ public class HotelController {
         System.out.println(json);
 
         HotelRequestDto dto = objectMapper.readValue(json, HotelRequestDto.class);
-        System.out.println(dto);
 
         String uri = request.getRequestURI();
 

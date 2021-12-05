@@ -109,10 +109,8 @@ public class LocationController {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         LocationRequestDto dto = objectMapper.readValue(json, LocationRequestDto.class);
-        System.out.println(dto);
 
         locationService.createLocation(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -122,10 +120,8 @@ public class LocationController {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         LocationRequestDto dto = objectMapper.readValue(json, LocationRequestDto.class);
-        System.out.println(dto);
 
         String uri = request.getRequestURI();
 

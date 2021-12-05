@@ -110,10 +110,8 @@ public class ScheduleController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         ScheduleRequestDto dto = objectMapper.readValue(json, ScheduleRequestDto.class);
-        System.out.println(dto);
 
         scheduleService.createSchedule(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -123,10 +121,8 @@ public class ScheduleController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         ScheduleRequestDto dto = objectMapper.readValue(json, ScheduleRequestDto.class);
-        System.out.println(dto);
 
         String uri = request.getRequestURI();
 

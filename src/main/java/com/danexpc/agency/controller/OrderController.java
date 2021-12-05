@@ -110,10 +110,8 @@ public class OrderController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         OrderRequestDto dto = objectMapper.readValue(json, OrderRequestDto.class);
-        System.out.println(dto);
 
         orderService.createOrder(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -123,10 +121,8 @@ public class OrderController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         OrderRequestDto dto = objectMapper.readValue(json, OrderRequestDto.class);
-        System.out.println(dto);
 
         String uri = request.getRequestURI();
 

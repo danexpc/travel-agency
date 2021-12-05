@@ -110,10 +110,8 @@ public class TourController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         TourRequestDto dto = objectMapper.readValue(json, TourRequestDto.class);
-        System.out.println(dto);
 
         tourService.createTour(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -126,7 +124,6 @@ public class TourController extends HttpServlet {
         System.out.println(json);
 
         TourRequestDto dto = objectMapper.readValue(json, TourRequestDto.class);
-        System.out.println(dto);
 
         String uri = request.getRequestURI();
 
