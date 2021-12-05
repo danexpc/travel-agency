@@ -21,15 +21,51 @@ public class TourController extends HttpServlet {
     private final TourService tourService = new TourService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/tours")) {
+            doGetTours(request, response);
+        } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
+            doGetTour(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/tours")) {
+            doCreateTour(request, response);
+        } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/tours")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
+            doUpdateTour(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/tours")) {
+            response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
+            doDeleteTour(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doGetTours(HttpServletRequest request, HttpServletResponse response) throws IOException {

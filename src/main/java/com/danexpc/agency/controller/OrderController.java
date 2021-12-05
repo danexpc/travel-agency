@@ -21,15 +21,51 @@ public class OrderController extends HttpServlet {
     private final OrderService orderService = new OrderService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/orders")) {
+            doGetOrders(request, response);
+        } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
+            doGetOrder(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/orders")) {
+            doCreateOrder(request, response);
+        } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/orders")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
+            doUpdateOrder(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/orders")) {
+            response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
+            doDeleteOrder(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doGetOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -102,7 +138,7 @@ public class OrderController extends HttpServlet {
         }
     }
 
-    public void doDeleteTour(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDeleteOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
         Matcher m = Pattern.compile(".*/orders/([0-9]+)(/?).*").matcher(uri);

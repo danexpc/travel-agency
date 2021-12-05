@@ -20,18 +20,54 @@ public class HotelController {
     private final HotelService hotelService = new HotelService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/hotels")) {
+            doGetHotels(request, response);
+        } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
+            doGetHotel(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/hotels")) {
+            doCreateHotel(request, response);
+        } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/hotels")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
+            doUpdateHotel(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/hotels")) {
+            response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
+            doDeleteHotel(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
-    public void doGetLocations(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetHotels(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -48,7 +84,7 @@ public class HotelController {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    public void doGetLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetHotel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -69,7 +105,7 @@ public class HotelController {
         }
     }
 
-    public void doCreateLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doCreateHotel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -82,7 +118,7 @@ public class HotelController {
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
-    public void doUpdateLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doUpdateHotel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -101,7 +137,7 @@ public class HotelController {
         }
     }
 
-    public void doDeleteLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDeleteHotel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
         Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);

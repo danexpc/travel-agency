@@ -22,15 +22,51 @@ public class UserController extends HttpServlet {
     private final UserService userService = new UserService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/users")) {
+            doGetUsers(request, response);
+        } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
+            doGetUser(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/users")) {
+            doCreateUser(request, response);
+        } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/users")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
+            doUpdateUser(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/users")) {
+            response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
+            doDeleteUser(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doGetUsers(HttpServletRequest request, HttpServletResponse response) throws IOException {

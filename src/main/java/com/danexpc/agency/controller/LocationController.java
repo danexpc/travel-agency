@@ -20,15 +20,51 @@ public class LocationController {
     private final LocationService locationService = new LocationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/locations")) {
+            doGetLocations(request, response);
+        } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
+            doGetLocation(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/locations")) {
+            doCreateLocation(request, response);
+        } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/locations")) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
+            doUpdateLocation(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+
+        if (uri.matches("/locations")) {
+            response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
+            doDeleteLocation(request, response);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     public void doGetLocations(HttpServletRequest request, HttpServletResponse response) throws IOException {
