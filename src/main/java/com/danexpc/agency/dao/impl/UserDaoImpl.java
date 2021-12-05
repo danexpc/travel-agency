@@ -41,13 +41,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void create(UserModel model) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        int resultSet;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(CREATE_USER);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER)) {
             preparedStatement.setString(1, model.getEmail());
             preparedStatement.setString(2, model.getPassword());
             preparedStatement.setString(3, model.getFirstName());
@@ -55,32 +49,16 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(5, model.getCity());
             preparedStatement.setBoolean(6, model.getIsBlocked());
             preparedStatement.setInt(7, model.getType());
-            resultSet = preparedStatement.executeUpdate();
-
-            System.out.println(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            System.out.println("finally");
-            connectionPool.commitAndClose(connection, preparedStatement);
         }
-
     }
 
     @Override
-    public UserModel update(UserModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        UserModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(UPDATE_USER);
+    public void update(UserModel model) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
             preparedStatement.setString(1, model.getEmail());
             preparedStatement.setString(2, model.getPassword());
             preparedStatement.setString(3, model.getFirstName());
@@ -89,35 +67,19 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setBoolean(6, model.getIsBlocked());
             preparedStatement.setInt(7, model.getType());
             preparedStatement.setInt(8, model.getId());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 
     @Override
     public UserModel findById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         UserModel resModel = null;
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_USER_BY_ID);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID)){
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
@@ -128,10 +90,6 @@ public class UserDaoImpl implements UserDao {
             resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
@@ -139,15 +97,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<UserModel> findAll() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         List<UserModel> resModel = new ArrayList<>();
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_ALL_USERS);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_USERS)){
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -155,42 +109,18 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
     }
 
     @Override
-    public UserModel deleteById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        UserModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID);
+    public void deleteById(Integer id) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID)){
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 }

@@ -39,83 +39,41 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void create(OrderModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        OrderModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(CREATE_ORDER);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ORDER)){
             preparedStatement.setInt(1, model.getUserId());
             preparedStatement.setInt(2, model.getTourId());
             preparedStatement.setInt(3, model.getOrderStatus());
             preparedStatement.setFloat(4, model.getDiscount());
             preparedStatement.setBigDecimal(5, model.getFinalPrice());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
     }
 
     @Override
-    public OrderModel update(OrderModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        OrderModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(UPDATE_ORDER);
+    public void update(OrderModel model) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER)){
             preparedStatement.setInt(1, model.getUserId());
             preparedStatement.setInt(2, model.getTourId());
             preparedStatement.setInt(3, model.getOrderStatus());
             preparedStatement.setFloat(4, model.getDiscount());
             preparedStatement.setBigDecimal(5, model.getFinalPrice());
             preparedStatement.setInt(6, model.getId());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 
     @Override
     public OrderModel findById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         OrderModel resModel = null;
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_ORDER_BY_ID);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ORDER_BY_ID)){
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
@@ -126,10 +84,6 @@ public class OrderDaoImpl implements OrderDao {
             resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
@@ -137,15 +91,11 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<OrderModel> findAll() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         List<OrderModel> resModel = new ArrayList<>();
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_ALL_ORDERS);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_ORDERS)){
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -153,42 +103,18 @@ public class OrderDaoImpl implements OrderDao {
             }
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
     }
 
     @Override
-    public OrderModel deleteById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        OrderModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(DELETE_ORDER_BY_ID);
+    public void deleteById(Integer id) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ORDER_BY_ID)){
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 }

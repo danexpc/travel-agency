@@ -38,84 +38,42 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public void create(LocationModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        LocationModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(CREATE_LOCATION);
+    public void create(LocationModel model) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(CREATE_LOCATION)){
             preparedStatement.setString(1, model.getNote());
             preparedStatement.setString(2, model.getAddress());
             preparedStatement.setString(3, model.getStreet());
             preparedStatement.setString(4, model.getCity());
             preparedStatement.setString(5, model.getCountry());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
     }
 
     @Override
-    public LocationModel update(LocationModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        LocationModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(UPDATE_LOCATION);
+    public void update(LocationModel model) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_LOCATION)){
             preparedStatement.setString(1, model.getNote());
             preparedStatement.setString(2, model.getAddress());
             preparedStatement.setString(3, model.getStreet());
             preparedStatement.setString(4, model.getCity());
             preparedStatement.setString(5, model.getCountry());
             preparedStatement.setInt(6, model.getId());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 
     @Override
     public LocationModel findById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         LocationModel resModel = null;
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_LOCATION_BY_ID);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_LOCATION_BY_ID)) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
@@ -126,10 +84,6 @@ public class LocationDaoImpl implements LocationDao {
             resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
@@ -137,15 +91,11 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public List<LocationModel> findAll() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         List<LocationModel> resModel = new ArrayList<>();
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_ALL_LOCATIONS);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_LOCATIONS)){
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -153,42 +103,18 @@ public class LocationDaoImpl implements LocationDao {
             }
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
     }
 
     @Override
-    public LocationModel deleteById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        LocationModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(DELETE_LOCATION_BY_ID);
+    public void deleteById(Integer id) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LOCATION_BY_ID)){
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 }

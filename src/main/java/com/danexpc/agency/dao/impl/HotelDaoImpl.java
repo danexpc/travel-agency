@@ -37,82 +37,40 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public void create(HotelModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        HotelModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(CREATE_HOTEL);
+    public void create(HotelModel model) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(CREATE_HOTEL)){
             preparedStatement.setInt(1, model.getLocationId());
             preparedStatement.setString(2, model.getName());
             preparedStatement.setString(3, model.getDescription());
             preparedStatement.setInt(4, model.getType());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
     }
 
     @Override
-    public HotelModel update(HotelModel model) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        HotelModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(UPDATE_HOTEL);
+    public void update(HotelModel model) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOTEL)){
             preparedStatement.setInt(1, model.getLocationId());
             preparedStatement.setString(2, model.getName());
             preparedStatement.setString(3, model.getDescription());
             preparedStatement.setInt(4, model.getType());
             preparedStatement.setInt(5, model.getId());
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 
     @Override
     public HotelModel findById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         HotelModel resModel = null;
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_HOTEL_BY_ID);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_HOTEL_BY_ID)){
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
@@ -123,10 +81,6 @@ public class HotelDaoImpl implements HotelDao {
             resModel = buildModel(resultSet);
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
@@ -134,15 +88,11 @@ public class HotelDaoImpl implements HotelDao {
 
     @Override
     public List<HotelModel> findAll() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         List<HotelModel> resModel = new ArrayList<>();
 
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(FIND_ALL_HOTELS);
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_HOTELS)){
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -150,42 +100,18 @@ public class HotelDaoImpl implements HotelDao {
             }
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
 
         return resModel;
     }
 
     @Override
-    public HotelModel deleteById(Integer id) throws EntityNotFoundDaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        HotelModel resModel = null;
-
-        try {
-            connection = connectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(DELETE_HOTEL_BY_ID);
+    public void deleteById(Integer id) {
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOTEL_BY_ID)){
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
-            }
-
-            resModel = buildModel(resultSet);
+            preparedStatement.executeQuery();
         } catch (SQLException e) {
             // todo log
-            connectionPool.rollback(connection);
-            // todo throw exception
-        } finally {
-            connectionPool.commitAndClose(connection, preparedStatement, resultSet);
         }
-
-        return resModel;
     }
 }
