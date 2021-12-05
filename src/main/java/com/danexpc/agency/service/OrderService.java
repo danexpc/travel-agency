@@ -3,8 +3,8 @@ package com.danexpc.agency.service;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.OrderDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
-import com.danexpc.agency.dto.OrderRequestDto;
-import com.danexpc.agency.dto.OrderResponseDto;
+import com.danexpc.agency.dto.request.OrderRequestDto;
+import com.danexpc.agency.dto.response.OrderResponseDto;
 
 import java.util.List;
 

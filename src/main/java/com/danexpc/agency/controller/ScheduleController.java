@@ -1,9 +1,8 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.request.UserRequestDto;
-import com.danexpc.agency.dto.response.UserResponseDto;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
-import com.danexpc.agency.service.UserService;
+import com.danexpc.agency.dto.request.ScheduleRequestDto;
+import com.danexpc.agency.dto.response.ScheduleResponseDto;
+import com.danexpc.agency.service.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +16,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "UserServlet", value = "/users/*")
-public class UserController extends HttpServlet {
-    private final UserService userService = new UserService();
+@WebServlet(name = "ScheduleServlet", value = "/schedules/*")
+public class ScheduleController extends HttpServlet {
+    private final ScheduleService scheduleService = new ScheduleService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
@@ -33,14 +32,14 @@ public class UserController extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
 
-    public void doGetUsers(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetSchedules(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<UserResponseDto> dtos = userService.getAllUsers();
+        List<ScheduleResponseDto> dtos = scheduleService.getAllSchedules();
 
         String json = objectMapper.writeValueAsString(dtos);
 
@@ -50,17 +49,17 @@ public class UserController extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    public void doGetUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         String uri = request.getRequestURI();
 
-        Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
+        Matcher m = Pattern.compile(".*/schedules/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            UserResponseDto dto = userService.getUserById(Integer.getInteger(m.group(1)));
+            ScheduleResponseDto dto = scheduleService.getScheduleById(Integer.getInteger(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -71,46 +70,45 @@ public class UserController extends HttpServlet {
         }
     }
 
-    public void doCreateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doCreateSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(json);
 
-        UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
+        ScheduleRequestDto dto = objectMapper.readValue(json, ScheduleRequestDto.class);
+        System.out.println(dto);
 
-        try {
-            userService.createUser(dto);
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        } catch (EntityNotFoundDaoException e) {
-            // todo handle exception
-            e.printStackTrace();
-        }
+        scheduleService.createSchedule(dto);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
-    public void doUpdateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doUpdateSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(json);
 
-        UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
+        ScheduleRequestDto dto = objectMapper.readValue(json, ScheduleRequestDto.class);
+        System.out.println(dto);
 
         String uri = request.getRequestURI();
 
-        Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
+        Matcher m = Pattern.compile(".*/schedules/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            userService.updateUser(Integer.getInteger(m.group(1)), dto);
+            scheduleService.updateSchedule(Integer.getInteger(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
 
-    public void doDeleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDeleteTour(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
+        Matcher m = Pattern.compile(".*/schedules/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            userService.deleteUserById(Integer.getInteger(m.group(1)));
+            scheduleService.deleteScheduleById(Integer.getInteger(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

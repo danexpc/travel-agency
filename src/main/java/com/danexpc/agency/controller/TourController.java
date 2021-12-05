@@ -1,7 +1,7 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.TourRequestDto;
-import com.danexpc.agency.dto.TourResponseDto;
+import com.danexpc.agency.dto.request.TourRequestDto;
+import com.danexpc.agency.dto.response.TourResponseDto;
 import com.danexpc.agency.service.TourService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

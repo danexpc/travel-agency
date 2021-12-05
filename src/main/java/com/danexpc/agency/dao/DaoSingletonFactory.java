@@ -11,4 +11,6 @@ public interface DaoSingletonFactory {
     TourDao getTourDao();
 
     UserDao getUserDao();
+
+    ScheduleDao getScheduleDao();
 }

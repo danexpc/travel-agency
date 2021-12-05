@@ -1,7 +1,7 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.OrderRequestDto;
-import com.danexpc.agency.dto.OrderResponseDto;
+import com.danexpc.agency.dto.request.OrderRequestDto;
+import com.danexpc.agency.dto.response.OrderResponseDto;
 import com.danexpc.agency.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

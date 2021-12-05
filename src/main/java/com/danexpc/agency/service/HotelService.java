@@ -3,8 +3,8 @@ package com.danexpc.agency.service;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.HotelDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
-import com.danexpc.agency.dto.HotelRequestDto;
-import com.danexpc.agency.dto.HotelResponseDto;
+import com.danexpc.agency.dto.request.HotelRequestDto;
+import com.danexpc.agency.dto.response.HotelResponseDto;
 
 import java.util.List;
 

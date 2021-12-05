@@ -3,8 +3,10 @@ package com.danexpc.agency.service;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.TourDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
-import com.danexpc.agency.dto.TourRequestDto;
-import com.danexpc.agency.dto.TourResponseDto;
+import com.danexpc.agency.dto.request.ScheduleRequestDto;
+import com.danexpc.agency.dto.request.TourRequestDto;
+import com.danexpc.agency.dto.response.ScheduleResponseDto;
+import com.danexpc.agency.dto.response.TourResponseDto;
 
 import java.util.List;
 

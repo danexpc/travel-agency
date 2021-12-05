@@ -3,8 +3,8 @@ package com.danexpc.agency.service;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.LocationDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
-import com.danexpc.agency.dto.LocationRequestDto;
-import com.danexpc.agency.dto.LocationResponseDto;
+import com.danexpc.agency.dto.request.LocationRequestDto;
+import com.danexpc.agency.dto.response.LocationResponseDto;
 
 import java.util.List;
 

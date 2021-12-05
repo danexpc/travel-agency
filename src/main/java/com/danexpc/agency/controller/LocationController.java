@@ -1,7 +1,7 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.LocationRequestDto;
-import com.danexpc.agency.dto.LocationResponseDto;
+import com.danexpc.agency.dto.request.LocationRequestDto;
+import com.danexpc.agency.dto.response.LocationResponseDto;
 import com.danexpc.agency.service.LocationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

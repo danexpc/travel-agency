@@ -1,7 +1,7 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.HotelRequestDto;
-import com.danexpc.agency.dto.HotelResponseDto;
+import com.danexpc.agency.dto.request.HotelRequestDto;
+import com.danexpc.agency.dto.response.HotelResponseDto;
 import com.danexpc.agency.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

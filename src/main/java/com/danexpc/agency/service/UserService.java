@@ -3,8 +3,8 @@ package com.danexpc.agency.service;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.UserDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
-import com.danexpc.agency.dto.UserRequestDto;
-import com.danexpc.agency.dto.UserResponseDto;
+import com.danexpc.agency.dto.request.UserRequestDto;
+import com.danexpc.agency.dto.response.UserResponseDto;
 import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
 import com.danexpc.agency.model.UserModel;
 
