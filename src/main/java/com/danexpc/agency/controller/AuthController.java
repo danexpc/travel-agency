@@ -1,6 +1,6 @@
 package com.danexpc.agency.controller;
 
-import com.danexpc.agency.dto.request.UserLoginRequest;
+import com.danexpc.agency.dto.request.UserAuthRequest;
 import com.danexpc.agency.dto.response.UserLoginResponse;
 import com.danexpc.agency.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +23,8 @@ public class AuthController extends HttpServlet {
 
         if (uri.matches(".*/login")) {
             doLoginUser(request, response);
+        } else if (uri.matches(".*/register")) {
+            doRegisterUser(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -35,12 +37,22 @@ public class AuthController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        UserLoginRequest dto = objectMapper.readValue(json, UserLoginRequest.class);
+        UserAuthRequest dto = objectMapper.readValue(json, UserAuthRequest.class);
         UserLoginResponse responseDto = authService.login(dto);
 
         String jsonResponse = objectMapper.writeValueAsString(responseDto);
         out.print(jsonResponse);
         out.flush();
         response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    public void doRegisterUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserAuthRequest dto = objectMapper.readValue(json, UserAuthRequest.class);
+        authService.register(dto);
+
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 }

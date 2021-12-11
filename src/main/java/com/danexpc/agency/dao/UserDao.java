@@ -6,4 +6,6 @@ import com.danexpc.agency.entity.UserModel;
 public interface UserDao extends AbstractDao<UserModel, Integer> {
 
     UserModel findByEmailAndPassword(String email, String password) throws EntityNotFoundException;
+
+    UserModel findByEmail(String email) throws EntityNotFoundException;
 }

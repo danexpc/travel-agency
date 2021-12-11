@@ -24,11 +24,11 @@ public class RequestValidationFilter implements Filter {
     private static final String HEADER_AUTH_PREFIX = "Bearer ";
     private static final String HEADER_AUTH = "Authorization";
 
-    private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login");
+    private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login", "/auth/register", "/tours", "/tours/([0-9]+)(/?).*", "/schedules", "/schedules/([0-9]+)(/?).*");
 
     private static final Map<HttpMethod, List<String>> ALLOWED_PATHS_FOR_CLIENT = Map.of(
-            HttpMethod.GET, List.of(),
-            HttpMethod.POST, List.of(),
+            HttpMethod.GET, List.of("/users/([0-9]+)/orders(/?).*", "/users/([0-9]+)/info"),
+            HttpMethod.POST, List.of("/orders"),
             HttpMethod.PUT, List.of(),
             HttpMethod.PATCH, List.of(),
             HttpMethod.DELETE, List.of()
@@ -52,7 +52,7 @@ public class RequestValidationFilter implements Filter {
         var httpRequest = (HttpServletRequest) request;
         var httpResponse = (HttpServletResponse) response;
 
-        if (ALLOWED_PATHS.contains(getRequestedUrl(httpRequest))) {
+        if (ALLOWED_PATHS.stream().anyMatch(regex -> getRequestedUrl(httpRequest).matches(regex))) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -88,16 +88,16 @@ public class RequestValidationFilter implements Filter {
     }
 
     private String getRequestedUrl(HttpServletRequest httpRequest) {
-       return httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()).replaceAll("[/]+$", "" );
+       return httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
     }
 
     private Boolean isUserAllowedToPerformRequest(HttpServletRequest request, Integer userType) {
        if (UserRole.ADMINISTRATOR.getId() == userType) {
            return true;
        } else if (UserRole.MANAGER.getId() == userType) {
-           return ALLOWED_PATHS_FOR_MANAGER.getOrDefault(HttpMethod.valueOf(request.getMethod()), List.of()).contains(getRequestedUrl(request));
+           return ALLOWED_PATHS_FOR_MANAGER.getOrDefault(HttpMethod.valueOf(request.getMethod()), List.of()).stream().anyMatch(regex -> getRequestedUrl(request).matches(regex));
        } else if (UserRole.CLIENT.getId() == userType) {
-           return ALLOWED_PATHS_FOR_CLIENT.getOrDefault(HttpMethod.valueOf(request.getMethod()), List.of()).contains(getRequestedUrl(request));
+           return ALLOWED_PATHS_FOR_CLIENT.getOrDefault(HttpMethod.valueOf(request.getMethod()), List.of()).stream().anyMatch(regex -> getRequestedUrl(request).matches(regex));
        }
 
         return false;

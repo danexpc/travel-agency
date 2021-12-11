@@ -8,6 +8,10 @@
         <location>/exceptions-handler</location>
     </error-page>
     <error-page>
+        <exception-type>com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException</exception-type>
+        <location>/exceptions-handler</location>
+    </error-page>
+    <error-page>
         <exception-type>com.danexpc.agency.exceptions.UnprocessableEntityException</exception-type>
         <location>/exceptions-handler</location>
     </error-page>
@@ -21,6 +25,10 @@
     </error-page>
     <error-page>
         <exception-type>com.danexpc.agency.exceptions.EntityNotFoundException</exception-type>
+        <location>/exceptions-handler</location>
+    </error-page>
+    <error-page>
+        <exception-type>com.danexpc.agency.exceptions.EntityAlreadyExistsException</exception-type>
         <location>/exceptions-handler</location>
     </error-page>
 </web-app>

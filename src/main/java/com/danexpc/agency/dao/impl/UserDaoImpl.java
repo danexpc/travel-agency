@@ -34,6 +34,8 @@ public class UserDaoImpl implements UserDao {
 
     private final String FIND_USER_BY_EMAIL_AND_PASSWORD = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users WHERE email=? AND password=?;";
 
+    private final String FIND_USER_BY_EMAIL = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users WHERE email=?;";
+
     private final String FIND_ALL_USERS = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users;";
 
     private final String DELETE_USER_BY_ID = "DELETE FROM orders WHERE id=?;";
@@ -128,6 +130,28 @@ public class UserDaoImpl implements UserDao {
             while (resultSet.next()) {
                 resModel.add(buildModel(resultSet));
             }
+        } catch (SQLException e) {
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
+        }
+
+        return resModel;
+    }
+
+    @Override
+    public UserModel findByEmail(String email) throws EntityNotFoundException {
+        ResultSet resultSet;
+
+        UserModel resModel;
+
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL)){
+            preparedStatement.setString(1, email);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.next()) {
+                throw new EntityNotFoundException(String.format(ENTITY_WITH_EMAIL_NOT_FOUND_EXCEPTION_MESSAGE, email));
+            }
+
+            resModel = buildModel(resultSet);
         } catch (SQLException e) {
             throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }

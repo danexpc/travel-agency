@@ -1,6 +1,7 @@
 package com.danexpc.agency.exceptions;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,6 +46,10 @@ public class ExceptionHandler extends HttpServlet {
         } else if (cause.equals(UniqueViolationException.class)) {
             doHandleInvalidFormatException(response);
         } else if (cause.equals(UnprocessableEntityException.class)) {
+            doHandleInvalidFormatException(response);
+        } else if (cause.equals(UnrecognizedPropertyException.class)){
+            doHandleInvalidFormatException(response);
+        } else if (cause.equals(EntityAlreadyExistsException.class)){
             doHandleInvalidFormatException(response);
         } else if (cause.equals(DaoException.class)){
             doHandleInvalidFormatException(response);
