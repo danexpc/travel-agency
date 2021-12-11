@@ -1,5 +1,7 @@
 package com.danexpc.agency.filter;
 
+import com.danexpc.agency.constants.HttpMethod;
+import com.danexpc.agency.constants.UserRole;
 import com.danexpc.agency.security.JWTUtil;
 
 import javax.servlet.Filter;
@@ -11,9 +13,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.jsonwebtoken.lang.Strings.hasText;
@@ -25,6 +26,22 @@ public class RequestValidationFilter implements Filter {
 
     private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login");
 
+    private static final Map<HttpMethod, List<String>> ALLOWED_PATHS_FOR_CLIENT = Map.of(
+            HttpMethod.GET, List.of(),
+            HttpMethod.POST, List.of(),
+            HttpMethod.PUT, List.of(),
+            HttpMethod.PATCH, List.of(),
+            HttpMethod.DELETE, List.of()
+    );
+
+    private static final Map<HttpMethod, List<String>> ALLOWED_PATHS_FOR_MANAGER = Map.of(
+            HttpMethod.GET, List.of(),
+            HttpMethod.POST, List.of(),
+            HttpMethod.PUT, List.of(),
+            HttpMethod.PATCH, List.of(),
+            HttpMethod.DELETE, List.of()
+    );
+
     @Override
     public void doFilter(
             ServletRequest request,
@@ -35,7 +52,7 @@ public class RequestValidationFilter implements Filter {
         var httpRequest = (HttpServletRequest) request;
         var httpResponse = (HttpServletResponse) response;
 
-        if (ALLOWED_PATHS.contains(httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()).replaceAll("[/]+$", "" ))) {
+        if (ALLOWED_PATHS.contains(getRequestedUrl(httpRequest))) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -52,11 +69,14 @@ public class RequestValidationFilter implements Filter {
             return;
         }
 
-        Integer userType = JWTUtil.getUserType(authTokenHeader);
+        var userType = JWTUtil.getUserType(authTokenHeader);
 
-        System.out.println(userType);
+        if (isUserAllowedToPerformRequest(httpRequest, userType)) {
+            filterChain.doFilter(request, response);
+        } else {
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
 
-        filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request) {
@@ -65,5 +85,21 @@ public class RequestValidationFilter implements Filter {
         return hasText(headerAuth) && headerAuth.startsWith(HEADER_AUTH_PREFIX)
                 ? headerAuth.substring(HEADER_AUTH_PREFIX.length())
                 : null;
+    }
+
+    private String getRequestedUrl(HttpServletRequest httpRequest) {
+       return httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()).replaceAll("[/]+$", "" );
+    }
+
+    private Boolean isUserAllowedToPerformRequest(HttpServletRequest request, Integer userType) {
+       if (UserRole.ADMINISTRATOR.getId() == userType) {
+           return true;
+       } else if (UserRole.MANAGER.getId() == userType) {
+           return ALLOWED_PATHS_FOR_MANAGER.getOrDefault(HttpMethod.valueOf(request.getMethod()), List.of()).contains(getRequestedUrl(request));
+       } else if (UserRole.CLIENT.getId() == userType) {
+           return ALLOWED_PATHS_FOR_CLIENT.getOrDefault(HttpMethod.valueOf(request.getMethod()), List.of()).contains(getRequestedUrl(request));
+       }
+
+        return false;
     }
 }

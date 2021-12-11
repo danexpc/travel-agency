@@ -56,6 +56,10 @@ public class ScheduleController extends HttpServlet {
         }
     }
 
+    public void doPatch(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+    }
+
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
