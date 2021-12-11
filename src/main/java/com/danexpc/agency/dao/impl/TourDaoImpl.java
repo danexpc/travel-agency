@@ -2,7 +2,11 @@ package com.danexpc.agency.dao.impl;
 
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.TourDao;
+import com.danexpc.agency.dao.enums.SQLState;
+import com.danexpc.agency.exceptions.DaoException;
 import com.danexpc.agency.exceptions.EntityNotFoundException;
+import com.danexpc.agency.exceptions.UniqueViolationException;
+import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.model.TourModel;
 
 import java.sql.Connection;
@@ -11,6 +15,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static com.danexpc.agency.exceptions.DaoException.DAO_EXCEPTION_MESSAGE;
+import static com.danexpc.agency.exceptions.EntityNotFoundException.ENTITY_NOT_FOUND_EXCEPTION_MESSAGE;
+import static com.danexpc.agency.exceptions.UnprocessableEntityException.UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE;
 
 public class TourDaoImpl implements TourDao {
 
@@ -44,7 +53,11 @@ public class TourDaoImpl implements TourDao {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            // todo log
+            if (Objects.equals(e.getSQLState(), SQLState.UNIQUE_VIOLATION.getState())) {
+                throw new UniqueViolationException(e);
+            }
+
+            throw new UnprocessableEntityException(String.format(UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE, model.toString()), e);
         }
 
     }
@@ -59,7 +72,11 @@ public class TourDaoImpl implements TourDao {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            // todo log
+            if (Objects.equals(e.getSQLState(), SQLState.UNIQUE_VIOLATION.getState())) {
+                throw new UniqueViolationException(e);
+            }
+
+            throw new UnprocessableEntityException(String.format(UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE, model.toString()), e);
         }
     }
 
@@ -74,12 +91,12 @@ public class TourDaoImpl implements TourDao {
             resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException(String.format(ENTITY_NOT_FOUND_EXCEPTION_MESSAGE, id));
             }
 
             resModel = buildModel(resultSet);
         } catch (SQLException e) {
-            // todo log
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
 
         return resModel;
@@ -98,7 +115,7 @@ public class TourDaoImpl implements TourDao {
                 resModel.add(buildModel(resultSet));
             }
         } catch (SQLException e) {
-            // todo log
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
 
         return resModel;
@@ -111,7 +128,7 @@ public class TourDaoImpl implements TourDao {
             preparedStatement.executeQuery();
             connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
     }
 }

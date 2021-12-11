@@ -36,7 +36,17 @@ public class ExceptionHandler extends HttpServlet {
 
     private void doHandleException(HttpServletRequest request,
                                    HttpServletResponse response) throws IOException {
-        if (request.getAttribute("javax.servlet.error.exception_type").equals(InvalidFormatException.class)) {
+        Object cause = request.getAttribute("javax.servlet.error.exception_type");
+
+        if (cause.equals(InvalidFormatException.class)) {
+            doHandleInvalidFormatException(response);
+        } else if (cause.equals(EntityNotFoundException.class)) {
+            doHandleInvalidFormatException(response);
+        } else if (cause.equals(UniqueViolationException.class)) {
+            doHandleInvalidFormatException(response);
+        } else if (cause.equals(UnprocessableEntityException.class)) {
+            doHandleInvalidFormatException(response);
+        } else if (cause.equals(DaoException.class)){
             doHandleInvalidFormatException(response);
         }
     }

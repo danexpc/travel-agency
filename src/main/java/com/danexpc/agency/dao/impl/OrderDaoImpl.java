@@ -2,7 +2,10 @@ package com.danexpc.agency.dao.impl;
 
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.OrderDao;
+import com.danexpc.agency.dao.enums.SQLState;
+import com.danexpc.agency.exceptions.DaoException;
 import com.danexpc.agency.exceptions.EntityNotFoundException;
+import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.model.OrderModel;
 
@@ -12,6 +15,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static com.danexpc.agency.exceptions.DaoException.DAO_EXCEPTION_MESSAGE;
+import static com.danexpc.agency.exceptions.EntityNotFoundException.ENTITY_NOT_FOUND_EXCEPTION_MESSAGE;
+import static com.danexpc.agency.exceptions.UnprocessableEntityException.UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE;
 
 public class OrderDaoImpl implements OrderDao {
 
@@ -49,7 +57,11 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            throw new UnprocessableEntityException();
+            if (Objects.equals(e.getSQLState(), SQLState.UNIQUE_VIOLATION.getState())) {
+                throw new UniqueViolationException(e);
+            }
+
+            throw new UnprocessableEntityException(String.format(UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE, model.toString()), e);
         }
 
     }
@@ -66,7 +78,11 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            throw new UnprocessableEntityException();
+            if (Objects.equals(e.getSQLState(), SQLState.UNIQUE_VIOLATION.getState())) {
+                throw new UniqueViolationException(e);
+            }
+
+            throw new UnprocessableEntityException(String.format(UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE, model.toString()), e);
         }
     }
 
@@ -81,12 +97,12 @@ public class OrderDaoImpl implements OrderDao {
             resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException(String.format(ENTITY_NOT_FOUND_EXCEPTION_MESSAGE, id));
             }
 
             resModel = buildModel(resultSet);
         } catch (SQLException e) {
-            // todo log
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
 
         return resModel;
@@ -105,7 +121,7 @@ public class OrderDaoImpl implements OrderDao {
                 resModel.add(buildModel(resultSet));
             }
         } catch (SQLException e) {
-            // todo log
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
 
         return resModel;
@@ -118,7 +134,7 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
     }
 }
