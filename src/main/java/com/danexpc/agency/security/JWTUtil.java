@@ -63,6 +63,10 @@ public class JWTUtil {
         return decodeJWT(authToken).get("userType", Integer.class);
     }
 
+    public static Integer getUserId(String authToken) {
+        return decodeJWT(authToken).get("userId", Integer.class);
+    }
+
     public static boolean validateJwtToken(String authToken) {
         try {
             decodeJWT(authToken);

@@ -28,6 +28,18 @@ public class AuthService {
         );
     }
 
+
+    public UserLoginResponse refreshToken(Integer id) {
+        UserModel user = userDao.findById(id);
+
+        return new UserLoginResponse(
+                user.getId(),
+                user.getType(),
+                JWTUtil.generateAccessToken(user.getId(), user.getType()),
+                JWTUtil.generateRefreshToken(user.getId(), user.getType())
+        );
+    }
+
     public void register(UserAuthRequest dto) {
         try {
             userDao.findByEmail(dto.getEmail());
