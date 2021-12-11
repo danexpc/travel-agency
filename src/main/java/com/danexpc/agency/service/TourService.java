@@ -5,7 +5,7 @@ import com.danexpc.agency.dao.TourDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.TourRequestDto;
 import com.danexpc.agency.dto.response.TourResponseDto;
-import com.danexpc.agency.model.TourModel;
+import com.danexpc.agency.entity.TourModel;
 import lombok.SneakyThrows;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.danexpc.agency.dto.request;
 
-import com.danexpc.agency.model.OrderModel;
+import com.danexpc.agency.entity.OrderModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

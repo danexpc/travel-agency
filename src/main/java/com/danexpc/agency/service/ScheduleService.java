@@ -5,7 +5,7 @@ import com.danexpc.agency.dao.ScheduleDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.ScheduleRequestDto;
 import com.danexpc.agency.dto.response.ScheduleResponseDto;
-import com.danexpc.agency.model.ScheduleModel;
+import com.danexpc.agency.entity.ScheduleModel;
 import lombok.SneakyThrows;
 
 import java.util.List;

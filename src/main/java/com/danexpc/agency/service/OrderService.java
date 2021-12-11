@@ -5,7 +5,7 @@ import com.danexpc.agency.dao.OrderDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.OrderRequestDto;
 import com.danexpc.agency.dto.response.OrderResponseDto;
-import com.danexpc.agency.model.OrderModel;
+import com.danexpc.agency.entity.OrderModel;
 import lombok.SneakyThrows;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.danexpc.agency.dto.response;
 
 import com.danexpc.agency.dto.request.OrderRequestDto;
-import com.danexpc.agency.interfaces.Identifiable;
-import com.danexpc.agency.model.OrderModel;
+import com.danexpc.agency.entity.interfaces.Identifiable;
+import com.danexpc.agency.entity.OrderModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

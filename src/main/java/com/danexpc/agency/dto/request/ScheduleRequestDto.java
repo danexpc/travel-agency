@@ -1,6 +1,6 @@
 package com.danexpc.agency.dto.request;
 
-import com.danexpc.agency.model.ScheduleModel;
+import com.danexpc.agency.entity.ScheduleModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

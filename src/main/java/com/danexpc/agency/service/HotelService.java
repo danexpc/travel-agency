@@ -5,7 +5,7 @@ import com.danexpc.agency.dao.HotelDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.HotelRequestDto;
 import com.danexpc.agency.dto.response.HotelResponseDto;
-import com.danexpc.agency.model.HotelModel;
+import com.danexpc.agency.entity.HotelModel;
 import lombok.SneakyThrows;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.danexpc.agency.interfaces;
+package com.danexpc.agency.entity.interfaces;
 
 public interface Identifiable<T> {
 

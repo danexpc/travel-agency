@@ -1,6 +1,6 @@
-package com.danexpc.agency.model;
+package com.danexpc.agency.entity;
 
-import com.danexpc.agency.interfaces.Identifiable;
+import com.danexpc.agency.entity.interfaces.Identifiable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

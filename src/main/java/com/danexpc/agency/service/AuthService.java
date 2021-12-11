@@ -5,7 +5,7 @@ import com.danexpc.agency.dao.UserDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.UserLoginRequest;
 import com.danexpc.agency.dto.response.UserLoginResponse;
-import com.danexpc.agency.model.UserModel;
+import com.danexpc.agency.entity.UserModel;
 import com.danexpc.agency.security.JWTUtil;
 
 public class AuthService {

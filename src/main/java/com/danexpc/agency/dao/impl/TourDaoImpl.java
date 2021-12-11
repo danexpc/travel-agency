@@ -7,7 +7,7 @@ import com.danexpc.agency.exceptions.DaoException;
 import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
-import com.danexpc.agency.model.TourModel;
+import com.danexpc.agency.entity.TourModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

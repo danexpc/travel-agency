@@ -1,8 +1,8 @@
 package com.danexpc.agency.dto.response;
 
 import com.danexpc.agency.dto.request.ScheduleRequestDto;
-import com.danexpc.agency.interfaces.Identifiable;
-import com.danexpc.agency.model.ScheduleModel;
+import com.danexpc.agency.entity.interfaces.Identifiable;
+import com.danexpc.agency.entity.ScheduleModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package com.danexpc.agency.dto.response;
 
 import com.danexpc.agency.dto.request.TourRequestDto;
-import com.danexpc.agency.interfaces.Identifiable;
-import com.danexpc.agency.model.TourModel;
+import com.danexpc.agency.entity.interfaces.Identifiable;
+import com.danexpc.agency.entity.TourModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

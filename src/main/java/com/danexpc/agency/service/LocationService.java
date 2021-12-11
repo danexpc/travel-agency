@@ -5,7 +5,7 @@ import com.danexpc.agency.dao.LocationDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.LocationRequestDto;
 import com.danexpc.agency.dto.response.LocationResponseDto;
-import com.danexpc.agency.model.LocationModel;
+import com.danexpc.agency.entity.LocationModel;
 import lombok.SneakyThrows;
 
 import java.util.List;
