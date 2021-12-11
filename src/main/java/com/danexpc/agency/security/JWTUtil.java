@@ -59,7 +59,11 @@ public class JWTUtil {
                 .parseClaimsJws(jwt).getBody();
     }
 
-    public boolean validateJwtToken(String authToken) {
+    public static Integer getUserType(String authToken) {
+        return decodeJWT(authToken).get("userType", Integer.class);
+    }
+
+    public static boolean validateJwtToken(String authToken) {
         try {
             decodeJWT(authToken);
             return true;
