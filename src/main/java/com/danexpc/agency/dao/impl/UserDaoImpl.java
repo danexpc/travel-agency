@@ -19,6 +19,7 @@ import java.util.Objects;
 
 import static com.danexpc.agency.exceptions.DaoException.DAO_EXCEPTION_MESSAGE;
 import static com.danexpc.agency.exceptions.EntityNotFoundException.ENTITY_NOT_FOUND_EXCEPTION_MESSAGE;
+import static com.danexpc.agency.exceptions.EntityNotFoundException.ENTITY_WITH_EMAIL_NOT_FOUND_EXCEPTION_MESSAGE;
 import static com.danexpc.agency.exceptions.UnprocessableEntityException.UNPROCESSABLE_ENTITY_EXCEPTION_MESSAGE;
 
 public class UserDaoImpl implements UserDao {
@@ -30,6 +31,8 @@ public class UserDaoImpl implements UserDao {
     private final String UPDATE_USER = "UPDATE users SET email=?, password=?, first_name=?, last_name=?, city=?, is_blocked=?, type=? WHERE id=?;";
 
     private final String FIND_USER_BY_ID = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users WHERE id=?;";
+
+    private final String FIND_USER_BY_EMAIL_AND_PASSWORD = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users WHERE email=? AND password=?;";
 
     private final String FIND_ALL_USERS = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users;";
 
@@ -125,6 +128,29 @@ public class UserDaoImpl implements UserDao {
             while (resultSet.next()) {
                 resModel.add(buildModel(resultSet));
             }
+        } catch (SQLException e) {
+            throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
+        }
+
+        return resModel;
+    }
+
+    @Override
+    public UserModel findByEmailAndPassword(String email, String password) throws EntityNotFoundException {
+        ResultSet resultSet;
+
+        UserModel resModel;
+
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL_AND_PASSWORD)){
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.next()) {
+                throw new EntityNotFoundException(String.format(ENTITY_WITH_EMAIL_NOT_FOUND_EXCEPTION_MESSAGE, email));
+            }
+
+            resModel = buildModel(resultSet);
         } catch (SQLException e) {
             throw new DaoException(DAO_EXCEPTION_MESSAGE, e);
         }
