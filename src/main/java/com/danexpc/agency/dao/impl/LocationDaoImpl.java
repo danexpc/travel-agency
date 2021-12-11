@@ -2,7 +2,8 @@ package com.danexpc.agency.dao.impl;
 
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.LocationDao;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
+import com.danexpc.agency.exceptions.EntityNotFoundException;
+import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.model.LocationModel;
 
 import java.sql.Connection;
@@ -46,8 +47,9 @@ public class LocationDaoImpl implements LocationDao {
             preparedStatement.setString(4, model.getCity());
             preparedStatement.setString(5, model.getCountry());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new UnprocessableEntityException();
         }
 
     }
@@ -62,13 +64,14 @@ public class LocationDaoImpl implements LocationDao {
             preparedStatement.setString(5, model.getCountry());
             preparedStatement.setInt(6, model.getId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new UnprocessableEntityException();
         }
     }
 
     @Override
-    public LocationModel findById(Integer id) throws EntityNotFoundDaoException {
+    public LocationModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
         LocationModel resModel = null;
@@ -78,7 +81,7 @@ public class LocationDaoImpl implements LocationDao {
             resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
+                throw new EntityNotFoundException();
             }
 
             resModel = buildModel(resultSet);
@@ -113,6 +116,7 @@ public class LocationDaoImpl implements LocationDao {
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LOCATION_BY_ID)){
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             // todo log
         }

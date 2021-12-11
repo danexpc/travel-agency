@@ -23,7 +23,7 @@ public class OrderController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/orders")) {
+        if (uri.matches(".*/orders")) {
             doGetOrders(request, response);
         } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
             doGetOrder(request, response);
@@ -35,7 +35,7 @@ public class OrderController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/orders")) {
+        if (uri.matches(".*/orders")) {
             doCreateOrder(request, response);
         } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -47,7 +47,7 @@ public class OrderController extends HttpServlet {
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/orders")) {
+        if (uri.matches(".*/orders")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
             doUpdateOrder(request, response);
@@ -59,7 +59,7 @@ public class OrderController extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/orders")) {
+        if (uri.matches(".*/orders")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/orders/([0-9]+)(/?).*")) {
             doDeleteOrder(request, response);
@@ -95,7 +95,7 @@ public class OrderController extends HttpServlet {
         Matcher m = Pattern.compile(".*/orders/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            OrderResponseDto dto = orderService.getOrderById(Integer.getInteger(m.group(1)));
+            OrderResponseDto dto = orderService.getOrderById(Integer.valueOf(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -129,7 +129,7 @@ public class OrderController extends HttpServlet {
         Matcher m = Pattern.compile(".*/orders/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            orderService.updateOrder(Integer.getInteger(m.group(1)), dto);
+            orderService.updateOrder(Integer.valueOf(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
@@ -140,7 +140,7 @@ public class OrderController extends HttpServlet {
         Matcher m = Pattern.compile(".*/orders/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            orderService.deleteOrderById(Integer.getInteger(m.group(1)));
+            orderService.deleteOrderById(Integer.valueOf(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

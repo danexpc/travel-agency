@@ -23,7 +23,7 @@ public class ScheduleController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/schedules")) {
+        if (uri.matches(".*/schedules")) {
             doGetSchedules(request, response);
         } else if (uri.matches(".*/schedules/([0-9]+)(/?).*")) {
             doGetSchedule(request, response);
@@ -35,7 +35,7 @@ public class ScheduleController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/schedules")) {
+        if (uri.matches(".*/schedules")) {
             doCreateSchedule(request, response);
         } else if (uri.matches(".*/schedules/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -47,7 +47,7 @@ public class ScheduleController extends HttpServlet {
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/schedules")) {
+        if (uri.matches(".*/schedules")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/schedules/([0-9]+)(/?).*")) {
             doUpdateSchedule(request, response);
@@ -59,7 +59,7 @@ public class ScheduleController extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/schedules")) {
+        if (uri.matches(".*/schedules")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/schedules/([0-9]+)(/?).*")) {
             doDeleteSchedule(request, response);
@@ -95,7 +95,7 @@ public class ScheduleController extends HttpServlet {
         Matcher m = Pattern.compile(".*/schedules/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            ScheduleResponseDto dto = scheduleService.getScheduleById(Integer.getInteger(m.group(1)));
+            ScheduleResponseDto dto = scheduleService.getScheduleById(Integer.valueOf(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -129,7 +129,7 @@ public class ScheduleController extends HttpServlet {
         Matcher m = Pattern.compile(".*/schedules/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            scheduleService.updateSchedule(Integer.getInteger(m.group(1)), dto);
+            scheduleService.updateSchedule(Integer.valueOf(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
@@ -140,7 +140,7 @@ public class ScheduleController extends HttpServlet {
         Matcher m = Pattern.compile(".*/schedules/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            scheduleService.deleteScheduleById(Integer.getInteger(m.group(1)));
+            scheduleService.deleteScheduleById(Integer.valueOf(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

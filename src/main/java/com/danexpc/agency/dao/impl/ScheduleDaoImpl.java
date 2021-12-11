@@ -2,7 +2,8 @@ package com.danexpc.agency.dao.impl;
 
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.ScheduleDao;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
+import com.danexpc.agency.exceptions.EntityNotFoundException;
+import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.model.ScheduleModel;
 
 import java.sql.Connection;
@@ -60,8 +61,9 @@ public class ScheduleDaoImpl implements ScheduleDao {
             preparedStatement.setInt(8, model.getTotalPlaceQty());
             preparedStatement.setInt(9, model.getRemainingPlacesQty());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new UnprocessableEntityException();
         }
 
     }
@@ -80,13 +82,14 @@ public class ScheduleDaoImpl implements ScheduleDao {
             preparedStatement.setInt(9, model.getRemainingPlacesQty());
             preparedStatement.setInt(10, model.getId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new UnprocessableEntityException();
         }
     }
 
     @Override
-    public ScheduleModel findById(Integer id) throws EntityNotFoundDaoException {
+    public ScheduleModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
         ScheduleModel resModel = null;
@@ -96,7 +99,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
+                throw new EntityNotFoundException();
             }
 
             resModel = buildModel(resultSet);
@@ -131,6 +134,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SCHEDULE_BY_ID)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             // todo log
         }

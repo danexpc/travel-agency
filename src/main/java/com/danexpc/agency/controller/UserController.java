@@ -2,7 +2,6 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.UserRequestDto;
 import com.danexpc.agency.dto.response.UserResponseDto;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
 import com.danexpc.agency.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,7 +23,7 @@ public class UserController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/users")) {
+        if (uri.matches(".*/users")) {
             doGetUsers(request, response);
         } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
             doGetUser(request, response);
@@ -36,7 +35,7 @@ public class UserController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/users")) {
+        if (uri.matches(".*/users")) {
             doCreateUser(request, response);
         } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -48,7 +47,7 @@ public class UserController extends HttpServlet {
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/users")) {
+        if (uri.matches(".*/users")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
             doUpdateUser(request, response);
@@ -60,7 +59,7 @@ public class UserController extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/users")) {
+        if (uri.matches(".*/users")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/users/([0-9]+)(/?).*")) {
             doDeleteUser(request, response);
@@ -96,7 +95,7 @@ public class UserController extends HttpServlet {
         Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            UserResponseDto dto = userService.getUserById(Integer.getInteger(m.group(1)));
+            UserResponseDto dto = userService.getUserById(Integer.valueOf((m.group(1))));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -112,7 +111,9 @@ public class UserController extends HttpServlet {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
+        UserRequestDto dto;
+
+        dto = objectMapper.readValue(json, UserRequestDto.class);
 
         userService.createUser(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -130,7 +131,7 @@ public class UserController extends HttpServlet {
         Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            userService.updateUser(Integer.getInteger(m.group(1)), dto);
+            userService.updateUser(Integer.valueOf(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
@@ -141,7 +142,7 @@ public class UserController extends HttpServlet {
         Matcher m = Pattern.compile(".*/users/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            userService.deleteUserById(Integer.getInteger(m.group(1)));
+            userService.deleteUserById(Integer.valueOf(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

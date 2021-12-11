@@ -23,7 +23,7 @@ public class TourController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/tours")) {
+        if (uri.matches(".*/tours")) {
             doGetTours(request, response);
         } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
             doGetTour(request, response);
@@ -35,7 +35,7 @@ public class TourController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/tours")) {
+        if (uri.matches(".*/tours")) {
             doCreateTour(request, response);
         } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -47,7 +47,7 @@ public class TourController extends HttpServlet {
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/tours")) {
+        if (uri.matches(".*/tours")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
             doUpdateTour(request, response);
@@ -59,7 +59,7 @@ public class TourController extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/tours")) {
+        if (uri.matches(".*/tours")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/tours/([0-9]+)(/?).*")) {
             doDeleteTour(request, response);
@@ -95,7 +95,7 @@ public class TourController extends HttpServlet {
         Matcher m = Pattern.compile(".*/tours/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            TourResponseDto dto = tourService.getTourById(Integer.getInteger(m.group(1)));
+            TourResponseDto dto = tourService.getTourById(Integer.valueOf(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -130,7 +130,7 @@ public class TourController extends HttpServlet {
         Matcher m = Pattern.compile(".*/tours/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            tourService.updateTour(Integer.getInteger(m.group(1)), dto);
+            tourService.updateTour(Integer.valueOf(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
@@ -141,7 +141,7 @@ public class TourController extends HttpServlet {
         Matcher m = Pattern.compile(".*/tours/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            tourService.deleteTourById(Integer.getInteger(m.group(1)));
+            tourService.deleteTourById(Integer.valueOf(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

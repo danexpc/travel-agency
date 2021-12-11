@@ -22,7 +22,7 @@ public class HotelController {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/hotels")) {
+        if (uri.matches(".*/hotels")) {
             doGetHotels(request, response);
         } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
             doGetHotel(request, response);
@@ -34,7 +34,7 @@ public class HotelController {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/hotels")) {
+        if (uri.matches(".*/hotels")) {
             doCreateHotel(request, response);
         } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -46,7 +46,7 @@ public class HotelController {
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/hotels")) {
+        if (uri.matches(".*/hotels")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
             doUpdateHotel(request, response);
@@ -58,7 +58,7 @@ public class HotelController {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/hotels")) {
+        if (uri.matches(".*/hotels")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/hotels/([0-9]+)(/?).*")) {
             doDeleteHotel(request, response);
@@ -94,7 +94,7 @@ public class HotelController {
         Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            HotelResponseDto dto = hotelService.getHotelById(Integer.getInteger(m.group(1)));
+            HotelResponseDto dto = hotelService.getHotelById(Integer.valueOf(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -129,7 +129,7 @@ public class HotelController {
         Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            hotelService.updateHotel(Integer.getInteger(m.group(1)), dto);
+            hotelService.updateHotel(Integer.valueOf(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
@@ -140,7 +140,7 @@ public class HotelController {
         Matcher m = Pattern.compile(".*/hotels/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            hotelService.deleteHotelById(Integer.getInteger(m.group(1)));
+            hotelService.deleteHotelById(Integer.valueOf(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

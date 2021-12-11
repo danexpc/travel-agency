@@ -2,7 +2,8 @@ package com.danexpc.agency.dao.impl;
 
 import com.danexpc.agency.dao.ConnectionPool;
 import com.danexpc.agency.dao.HotelDao;
-import com.danexpc.agency.exceptions.EntityNotFoundDaoException;
+import com.danexpc.agency.exceptions.EntityNotFoundException;
+import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.model.HotelModel;
 
 import java.sql.Connection;
@@ -44,8 +45,9 @@ public class HotelDaoImpl implements HotelDao {
             preparedStatement.setString(3, model.getDescription());
             preparedStatement.setInt(4, model.getType());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new UnprocessableEntityException();
         }
 
     }
@@ -59,13 +61,14 @@ public class HotelDaoImpl implements HotelDao {
             preparedStatement.setInt(4, model.getType());
             preparedStatement.setInt(5, model.getId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            // todo log
+            throw new UnprocessableEntityException();
         }
     }
 
     @Override
-    public HotelModel findById(Integer id) throws EntityNotFoundDaoException {
+    public HotelModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
         HotelModel resModel = null;
@@ -75,7 +78,7 @@ public class HotelDaoImpl implements HotelDao {
             resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new EntityNotFoundDaoException();
+                throw new EntityNotFoundException();
             }
 
             resModel = buildModel(resultSet);
@@ -110,6 +113,7 @@ public class HotelDaoImpl implements HotelDao {
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HOTEL_BY_ID)){
             preparedStatement.setInt(1, id);
             preparedStatement.executeQuery();
+            connection.commit();
         } catch (SQLException e) {
             // todo log
         }

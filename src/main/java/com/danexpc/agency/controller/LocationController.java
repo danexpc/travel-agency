@@ -22,7 +22,7 @@ public class LocationController {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/locations")) {
+        if (uri.matches(".*/locations")) {
             doGetLocations(request, response);
         } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
             doGetLocation(request, response);
@@ -34,7 +34,7 @@ public class LocationController {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/locations")) {
+        if (uri.matches(".*/locations")) {
             doCreateLocation(request, response);
         } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -46,7 +46,7 @@ public class LocationController {
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/locations")) {
+        if (uri.matches(".*/locations")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
             doUpdateLocation(request, response);
@@ -58,7 +58,7 @@ public class LocationController {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
-        if (uri.matches("/locations")) {
+        if (uri.matches(".*/locations")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/locations/([0-9]+)(/?).*")) {
             doDeleteLocation(request, response);
@@ -94,7 +94,7 @@ public class LocationController {
         Matcher m = Pattern.compile(".*/locations/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            LocationResponseDto dto = locationService.getLocationById(Integer.getInteger(m.group(1)));
+            LocationResponseDto dto = locationService.getLocationById(Integer.valueOf(m.group(1)));
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(dto);
@@ -128,7 +128,7 @@ public class LocationController {
         Matcher m = Pattern.compile(".*/locations/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            locationService.updateLocation(Integer.getInteger(m.group(1)), dto);
+            locationService.updateLocation(Integer.valueOf(m.group(1)), dto);
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
@@ -139,7 +139,7 @@ public class LocationController {
         Matcher m = Pattern.compile(".*/locations/([0-9]+)(/?).*").matcher(uri);
 
         if (m.matches()) {
-            locationService.deleteLocationById(Integer.getInteger(m.group(1)));
+            locationService.deleteLocationById(Integer.valueOf(m.group(1)));
 
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
