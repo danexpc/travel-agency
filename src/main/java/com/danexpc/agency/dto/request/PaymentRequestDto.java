@@ -1,6 +1,7 @@
 package com.danexpc.agency.dto.request;
 
 import com.danexpc.agency.entity.PaymentModel;
+import com.danexpc.agency.helpers.DateTimeConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @FieldDefaults(level = AccessLevel.PROTECTED)
 @Data
@@ -20,7 +20,7 @@ public class PaymentRequestDto {
 
     BigDecimal payment;
 
-    LocalDateTime date;
+    Long date;
 
     String currencyType;
 
@@ -30,7 +30,7 @@ public class PaymentRequestDto {
         PaymentModel model = new PaymentModel();
         model.setOrderId(orderId);
         model.setPayment(payment);
-        model.setDate(date);
+        model.setDate(DateTimeConverter.fromEpoch(date));
         model.setCurrencyType(currencyType);
         model.setCurrencyType(currencyType);
         model.setExchangeRate(exchangeRate);

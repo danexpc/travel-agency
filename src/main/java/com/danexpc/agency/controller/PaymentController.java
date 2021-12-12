@@ -1,12 +1,8 @@
 package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.PaymentRequestDto;
-import com.danexpc.agency.dto.request.ScheduleRequestDto;
 import com.danexpc.agency.dto.response.PaymentResponseDto;
-import com.danexpc.agency.dto.response.ScheduleResponseDto;
-import com.danexpc.agency.rmq.NotificationsSender;
 import com.danexpc.agency.service.PaymentService;
-import com.danexpc.agency.service.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
@@ -28,9 +24,9 @@ public class PaymentController extends HttpServlet {
         String uri = request.getRequestURI();
 
         if (uri.matches(".*/payments")) {
-            doGetSchedules(request, response);
+            doGetPayments(request, response);
         } else if (uri.matches(".*/payments/([0-9]+)(/?).*")) {
-            doGetSchedule(request, response);
+            doGetPayment(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -40,7 +36,7 @@ public class PaymentController extends HttpServlet {
         String uri = request.getRequestURI();
 
         if (uri.matches(".*/payments")) {
-            doCreateSchedule(request, response);
+            doCreatePayment(request, response);
         } else if (uri.matches(".*/payments/([0-9]+)(/?).*")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else {
@@ -54,7 +50,7 @@ public class PaymentController extends HttpServlet {
         if (uri.matches(".*/payments")) {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         } else if (uri.matches(".*/payments/([0-9]+)(/?).*")) {
-            doUpdateSchedule(request, response);
+            doUpdatePayment(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -70,13 +66,13 @@ public class PaymentController extends HttpServlet {
         if (uri.matches(".*/payments")) {
             response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
         } else if (uri.matches(".*/payments/([0-9]+)(/?).*")) {
-            doDeleteSchedule(request, response);
+            doDeletePayment(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
-    public void doGetSchedules(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetPayments(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -93,7 +89,7 @@ public class PaymentController extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    public void doGetSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGetPayment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -114,7 +110,7 @@ public class PaymentController extends HttpServlet {
         }
     }
 
-    public void doCreateSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doCreatePayment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -125,7 +121,7 @@ public class PaymentController extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
-    public void doUpdateSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doUpdatePayment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -142,7 +138,7 @@ public class PaymentController extends HttpServlet {
         }
     }
 
-    public void doDeleteSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDeletePayment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
 
         Matcher m = Pattern.compile(".*/payments/([0-9]+)(/?).*").matcher(uri);

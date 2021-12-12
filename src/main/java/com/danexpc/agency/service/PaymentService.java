@@ -1,11 +1,17 @@
 package com.danexpc.agency.service;
 
+import com.danexpc.agency.builder.NotificationDtoBuilder;
 import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.PaymentDao;
 import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
+import com.danexpc.agency.dto.notification.NotificationDto;
 import com.danexpc.agency.dto.request.PaymentRequestDto;
+import com.danexpc.agency.dto.response.OrderResponseDto;
 import com.danexpc.agency.dto.response.PaymentResponseDto;
 import com.danexpc.agency.entity.PaymentModel;
+import com.danexpc.agency.rmq.NotificationsSender;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -16,10 +22,22 @@ public class PaymentService {
 
     private final PaymentDao paymentDao = factory.getPaymentDao();
 
-    public void createPayment(PaymentRequestDto dto) {
+    private final OrderService orderService = new OrderService();
+
+    public void createPayment(PaymentRequestDto dto) throws JsonProcessingException {
         PaymentModel model = dto.buildModel();
 
+        // payment logic
+
         paymentDao.create(model);
+
+        OrderResponseDto order = orderService.getOrderById(dto.getOrderId());
+        NotificationDto notificationDto = NotificationDtoBuilder.build(dto, order);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String notification = objectMapper.writeValueAsString(notificationDto);
+
+        NotificationsSender.send(notification);
     }
 
     public void updatePayment(Integer id, PaymentRequestDto dto) {

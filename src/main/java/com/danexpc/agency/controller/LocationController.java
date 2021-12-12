@@ -6,6 +6,7 @@ import com.danexpc.agency.service.LocationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "LocationController", value = "/locations/*")
-public class LocationController {
+public class LocationController extends HttpServlet {
     private final LocationService locationService = new LocationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

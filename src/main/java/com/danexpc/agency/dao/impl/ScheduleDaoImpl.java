@@ -51,7 +51,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
         model.setDepartureDate(resultSet.getObject("departure_time", LocalDateTime.class));
         model.setDuration(resultSet.getLong("duration"));
         model.setIsOnFire(resultSet.getBoolean("is_on_fire"));
-        model.setTotalPlaceQty(resultSet.getInt("total_places_qty"));
+        model.setTotalPlacesQty(resultSet.getInt("total_places_qty"));
         model.setRemainingPlacesQty(resultSet.getInt("remaining_places_qty"));
         return model;
     }
@@ -66,7 +66,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             preparedStatement.setTimestamp(5, Timestamp.valueOf(model.getDepartureDate()));
             preparedStatement.setLong(6, model.getDuration());
             preparedStatement.setBoolean(7, model.getIsOnFire());
-            preparedStatement.setInt(8, model.getTotalPlaceQty());
+            preparedStatement.setInt(8, model.getTotalPlacesQty());
             preparedStatement.setInt(9, model.getRemainingPlacesQty());
             preparedStatement.executeUpdate();
             connection.commit();
@@ -90,7 +90,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             preparedStatement.setTimestamp(5, Timestamp.valueOf(model.getDepartureDate()));
             preparedStatement.setLong(6, model.getDuration());
             preparedStatement.setBoolean(7, model.getIsOnFire());
-            preparedStatement.setInt(8, model.getTotalPlaceQty());
+            preparedStatement.setInt(8, model.getTotalPlacesQty());
             preparedStatement.setInt(9, model.getRemainingPlacesQty());
             preparedStatement.setInt(10, model.getId());
             preparedStatement.executeUpdate();

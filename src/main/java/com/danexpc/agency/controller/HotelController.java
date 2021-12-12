@@ -6,6 +6,7 @@ import com.danexpc.agency.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "HotelController", value = "/hotels/*")
-public class HotelController {
+public class HotelController extends HttpServlet {
     private final HotelService hotelService = new HotelService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

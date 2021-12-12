@@ -29,7 +29,7 @@ public class ScheduleModel implements Identifiable<Integer> {
 
     private Boolean isOnFire;
 
-    private Integer totalPlaceQty;
+    private Integer totalPlacesQty;
 
     private Integer remainingPlacesQty;
 }

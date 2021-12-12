@@ -1,6 +1,7 @@
 package com.danexpc.agency.dto.request;
 
 import com.danexpc.agency.entity.ScheduleModel;
+import com.danexpc.agency.helpers.DateTimeConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @FieldDefaults(level = AccessLevel.PROTECTED)
 @Data
@@ -24,13 +24,13 @@ public class ScheduleRequestDto {
 
     BigDecimal price;
 
-    LocalDateTime departureDate;
+    Long departureDate;
 
     Long duration;
 
     Boolean isOnFire;
 
-    Integer totalPlaceQty;
+    Integer totalPlacesQty;
 
     Integer remainingPlacesQty;
 
@@ -40,10 +40,10 @@ public class ScheduleRequestDto {
         model.setStartLocationId(startLocationId);
         model.setHotelId(hotelId);
         model.setPrice(price);
-        model.setDepartureDate(departureDate);
+        model.setDepartureDate(DateTimeConverter.fromEpoch(departureDate));
         model.setDuration(duration);
         model.setIsOnFire(isOnFire);
-        model.setTotalPlaceQty(totalPlaceQty);
+        model.setTotalPlacesQty(totalPlacesQty);
         model.setRemainingPlacesQty(remainingPlacesQty);
 
         return model;
