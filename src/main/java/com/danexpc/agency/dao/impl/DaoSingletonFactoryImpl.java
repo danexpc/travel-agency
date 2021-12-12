@@ -4,6 +4,7 @@ import com.danexpc.agency.dao.DaoSingletonFactory;
 import com.danexpc.agency.dao.HotelDao;
 import com.danexpc.agency.dao.LocationDao;
 import com.danexpc.agency.dao.OrderDao;
+import com.danexpc.agency.dao.PaymentDao;
 import com.danexpc.agency.dao.ScheduleDao;
 import com.danexpc.agency.dao.TourDao;
 import com.danexpc.agency.dao.UserDao;
@@ -18,6 +19,7 @@ public class DaoSingletonFactoryImpl implements DaoSingletonFactory {
     private final TourDao tourDao = new TourDaoImpl();
     private final UserDao userDao = new UserDaoImpl();
     private final ScheduleDao scheduleDao = new ScheduleDaoImpl();
+    private final PaymentDao paymentDao = new PaymentDaoImpl();
 
     public static DaoSingletonFactory getInstance() {
         return factory;
@@ -51,5 +53,10 @@ public class DaoSingletonFactoryImpl implements DaoSingletonFactory {
     @Override
     public ScheduleDao getScheduleDao() {
         return scheduleDao;
+    }
+
+    @Override
+    public PaymentDao getPaymentDao() {
+        return paymentDao;
     }
 }

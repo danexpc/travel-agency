@@ -13,4 +13,6 @@ public interface DaoSingletonFactory {
     UserDao getUserDao();
 
     ScheduleDao getScheduleDao();
+
+    PaymentDao getPaymentDao();
 }

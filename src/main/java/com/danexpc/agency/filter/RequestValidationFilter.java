@@ -24,7 +24,7 @@ public class RequestValidationFilter implements Filter {
     private static final String HEADER_AUTH_PREFIX = "Bearer ";
     private static final String HEADER_AUTH = "Authorization";
 
-    private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login", "/auth/register", "/auth/refresh-token", "/tours", "/tours/([0-9]+)(/?).*", "/schedules", "/schedules/([0-9]+)(/?).*");
+    private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login", "/auth/register", "/auth/refresh-token", "/tours", "/tours/([0-9]+)(/?).*", "/schedules", "/schedules/([0-9]+)(/?).*", "/payments");
 
     private static final Map<HttpMethod, List<String>> ALLOWED_PATHS_FOR_CLIENT = Map.of(
             HttpMethod.GET, List.of("/users/([0-9]+)/orders(/?).*", "/users/([0-9]+)/info"),
