@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.UserRequestDto;
 import com.danexpc.agency.dto.response.UserResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "UserServlet", value = "/users/*")
 public class UserController extends HttpServlet {
     private final UserService userService = new UserService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -114,6 +116,7 @@ public class UserController extends HttpServlet {
         UserRequestDto dto;
 
         dto = objectMapper.readValue(json, UserRequestDto.class);
+        apiRequestValidationService.validateUserRequestDto(dto);
 
         userService.createUser(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -125,6 +128,7 @@ public class UserController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         UserRequestDto dto = objectMapper.readValue(json, UserRequestDto.class);
+        apiRequestValidationService.validateUserRequestDto(dto);
 
         String uri = request.getRequestURI();
 

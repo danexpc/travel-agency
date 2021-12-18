@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.TourRequestDto;
 import com.danexpc.agency.dto.response.TourResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.TourService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "TourServlet", value = "/tours/*")
 public class TourController extends HttpServlet {
     private final TourService tourService = new TourService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -112,6 +114,7 @@ public class TourController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         TourRequestDto dto = objectMapper.readValue(json, TourRequestDto.class);
+        apiRequestValidationService.validateTourRequestDto(dto);
 
         tourService.createTour(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -124,6 +127,7 @@ public class TourController extends HttpServlet {
         System.out.println(json);
 
         TourRequestDto dto = objectMapper.readValue(json, TourRequestDto.class);
+        apiRequestValidationService.validateTourRequestDto(dto);
 
         String uri = request.getRequestURI();
 

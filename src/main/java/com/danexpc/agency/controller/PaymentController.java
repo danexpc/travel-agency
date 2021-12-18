@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.PaymentRequestDto;
 import com.danexpc.agency.dto.response.PaymentResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.PaymentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "PaymentController", value = "/payments/*")
 public class PaymentController extends HttpServlet {
     private final PaymentService paymentService = new PaymentService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -116,6 +118,7 @@ public class PaymentController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         PaymentRequestDto dto = objectMapper.readValue(json, PaymentRequestDto.class);
+        apiRequestValidationService.validatePaymentRequestDto(dto);
 
         paymentService.createPayment(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -127,6 +130,7 @@ public class PaymentController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         PaymentRequestDto dto = objectMapper.readValue(json, PaymentRequestDto.class);
+        apiRequestValidationService.validatePaymentRequestDto(dto);
 
         String uri = request.getRequestURI();
 

@@ -31,4 +31,8 @@
         <exception-type>com.danexpc.agency.exceptions.EntityAlreadyExistsException</exception-type>
         <location>/exceptions-handler</location>
     </error-page>
+    <error-page>
+        <exception-type>com.danexpc.agency.exceptions.InvalidRequestDtoException</exception-type>
+        <location>/exceptions-handler</location>
+    </error-page>
 </web-app>

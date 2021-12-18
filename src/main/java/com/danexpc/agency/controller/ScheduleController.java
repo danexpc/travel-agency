@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.ScheduleRequestDto;
 import com.danexpc.agency.dto.response.ScheduleResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "ScheduleServlet", value = "/schedules/*")
 public class ScheduleController extends HttpServlet {
     private final ScheduleService scheduleService = new ScheduleService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -116,6 +118,7 @@ public class ScheduleController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ScheduleRequestDto dto = objectMapper.readValue(json, ScheduleRequestDto.class);
+        apiRequestValidationService.validateScheduleRequestDto(dto);
 
         scheduleService.createSchedule(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -127,6 +130,7 @@ public class ScheduleController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ScheduleRequestDto dto = objectMapper.readValue(json, ScheduleRequestDto.class);
+        apiRequestValidationService.validateScheduleRequestDto(dto);
 
         String uri = request.getRequestURI();
 

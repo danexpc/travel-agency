@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.HotelRequestDto;
 import com.danexpc.agency.dto.response.HotelResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "HotelController", value = "/hotels/*")
 public class HotelController extends HttpServlet {
     private final HotelService hotelService = new HotelService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -112,6 +114,7 @@ public class HotelController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         HotelRequestDto dto = objectMapper.readValue(json, HotelRequestDto.class);
+        apiRequestValidationService.validateHotelRequestDto(dto);
 
         hotelService.createHotel(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -121,9 +124,9 @@ public class HotelController extends HttpServlet {
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
 
         HotelRequestDto dto = objectMapper.readValue(json, HotelRequestDto.class);
+        apiRequestValidationService.validateHotelRequestDto(dto);
 
         String uri = request.getRequestURI();
 

@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.LocationRequestDto;
 import com.danexpc.agency.dto.response.LocationResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.LocationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "LocationController", value = "/locations/*")
 public class LocationController extends HttpServlet {
     private final LocationService locationService = new LocationService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -112,6 +114,7 @@ public class LocationController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         LocationRequestDto dto = objectMapper.readValue(json, LocationRequestDto.class);
+        apiRequestValidationService.validateLocationRequestDto(dto);
 
         locationService.createLocation(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -123,6 +126,7 @@ public class LocationController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         LocationRequestDto dto = objectMapper.readValue(json, LocationRequestDto.class);
+        apiRequestValidationService.validateLocationRequestDto(dto);
 
         String uri = request.getRequestURI();
 

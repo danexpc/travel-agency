@@ -3,6 +3,7 @@ package com.danexpc.agency.controller;
 import com.danexpc.agency.dto.request.UserAuthRequest;
 import com.danexpc.agency.dto.response.UserLoginResponse;
 import com.danexpc.agency.security.JWTUtil;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,6 +21,7 @@ import static com.danexpc.agency.filter.RequestValidationFilter.parseJwt;
 public class AuthController extends HttpServlet {
 
     private final AuthService authService = new AuthService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -43,6 +45,8 @@ public class AuthController extends HttpServlet {
 
         ObjectMapper objectMapper = new ObjectMapper();
         UserAuthRequest dto = objectMapper.readValue(json, UserAuthRequest.class);
+        apiRequestValidationService.validateAuthRequestDto(dto);
+
         UserLoginResponse responseDto = authService.login(dto);
 
         String jsonResponse = objectMapper.writeValueAsString(responseDto);
@@ -71,6 +75,7 @@ public class AuthController extends HttpServlet {
 
         ObjectMapper objectMapper = new ObjectMapper();
         UserAuthRequest dto = objectMapper.readValue(json, UserAuthRequest.class);
+        apiRequestValidationService.validateAuthRequestDto(dto);
         authService.register(dto);
 
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);

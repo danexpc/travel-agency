@@ -2,6 +2,7 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.OrderRequestDto;
 import com.danexpc.agency.dto.response.OrderResponseDto;
+import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @WebServlet(name = "OrderServlet", value = "/orders/*")
 public class OrderController extends HttpServlet {
     private final OrderService orderService = new OrderService();
+    private final ApiRequestValidationService apiRequestValidationService = new ApiRequestValidationService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
@@ -116,6 +118,7 @@ public class OrderController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         OrderRequestDto dto = objectMapper.readValue(json, OrderRequestDto.class);
+        apiRequestValidationService.validateOrderRequestDto(dto);
 
         orderService.createOrder(dto);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -127,6 +130,7 @@ public class OrderController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         OrderRequestDto dto = objectMapper.readValue(json, OrderRequestDto.class);
+        apiRequestValidationService.validateOrderRequestDto(dto);
 
         String uri = request.getRequestURI();
 
