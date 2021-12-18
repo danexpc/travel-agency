@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.entity.UserModel;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     private final String FIND_USER_BY_EMAIL = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users WHERE email=?;";
 
-    private final String FIND_ALL_USERS = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users;";
+    private final String FIND_ALL_USERS = "SELECT id, email, password, first_name, last_name, city, is_blocked, type FROM users limit ? offset ?;";
 
     private final String DELETE_USER_BY_ID = "DELETE FROM orders WHERE id=?;";
 
@@ -119,12 +120,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<UserModel> findAll() {
+    public List<UserModel> findAll(Pagination pagination) {
         ResultSet resultSet;
 
         List<UserModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_USERS)){
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

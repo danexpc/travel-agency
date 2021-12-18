@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.entity.HotelModel;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class HotelDaoImpl implements HotelDao {
 
     private final String FIND_HOTEL_BY_ID = "SELECT id, location_id, name, description, type FROM hotels WHERE id=?;";
 
-    private final String FIND_ALL_HOTELS = "SELECT id, location_id, name, description, type FROM hotels;";
+    private final String FIND_ALL_HOTELS = "SELECT id, location_id, name, description, type FROM hotels limit ? offset ?;";
 
     private final String DELETE_HOTEL_BY_ID = "DELETE FROM hotels WHERE id=?;";
 
@@ -87,7 +88,7 @@ public class HotelDaoImpl implements HotelDao {
     public HotelModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
-        HotelModel resModel = null;
+        HotelModel resModel;
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_HOTEL_BY_ID)){
             preparedStatement.setInt(1, id);
@@ -106,12 +107,14 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<HotelModel> findAll() {
+    public List<HotelModel> findAll(Pagination pagination) {
         ResultSet resultSet;
 
         List<HotelModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_HOTELS)){
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.DaoException;
 import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +34,7 @@ public class PaymentDaoImpl implements PaymentDao {
 
     private final String FIND_PAYMENT_BY_ID = "SELECT id, order_id, payment, date, currency_type, exchange_rate FROM payments WHERE id=?;";
 
-    private final String FIND_ALL_PAYMENTS = "SELECT id, order_id, payment, date, currency_type, exchange_rate FROM payments;";
+    private final String FIND_ALL_PAYMENTS = "SELECT id, order_id, payment, date, currency_type, exchange_rate FROM payments limit ? offset ?;";
 
     private final String DELETE_PAYMENT_BY_ID = "DELETE FROM payments WHERE id=?;";
 
@@ -110,12 +111,14 @@ public class PaymentDaoImpl implements PaymentDao {
     }
 
     @Override
-    public List<PaymentModel> findAll() throws EntityNotFoundException {
+    public List<PaymentModel> findAll(Pagination pagination) throws EntityNotFoundException {
         ResultSet resultSet;
 
         List<PaymentModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_PAYMENTS)) {
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

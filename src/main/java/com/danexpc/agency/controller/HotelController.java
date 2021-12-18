@@ -2,6 +2,8 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.HotelRequestDto;
 import com.danexpc.agency.dto.response.HotelResponseDto;
+import com.danexpc.agency.helpers.Pagination;
+import com.danexpc.agency.helpers.PaginationExtractor;
 import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.HotelService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,10 +77,11 @@ public class HotelController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Pagination pagination = PaginationExtractor.extractPaginationObjectFromRequest(request);
+
+        List<HotelResponseDto> dtos = hotelService.getAllHotels(pagination);
+
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<HotelResponseDto> dtos = hotelService.getAllHotels();
-
         String json = objectMapper.writeValueAsString(dtos);
 
         out.print(json);

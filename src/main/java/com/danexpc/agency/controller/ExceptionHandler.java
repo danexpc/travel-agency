@@ -5,6 +5,7 @@ import com.danexpc.agency.exceptions.DaoException;
 import com.danexpc.agency.exceptions.EntityAlreadyExistsException;
 import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.InvalidRequestDtoException;
+import com.danexpc.agency.exceptions.MissedParameterException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -73,6 +74,8 @@ public class ExceptionHandler extends HttpServlet {
             doHandleDaoException(response);
         } else if (cause.equals(InvalidRequestDtoException.class)) {
             doHandleInvalidRequestDtoException(request, response);
+        } else if (cause.equals(MissedParameterException.class)) {
+            doHandleMissedParameterException(request, response);
         }
     }
 
@@ -106,6 +109,11 @@ public class ExceptionHandler extends HttpServlet {
     }
 
     private void doHandleInvalidRequestDtoException(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Throwable exception = (Throwable) request.getAttribute("javax.servlet.error.exception");
+        writeErrorJsonToResponse(exception.getMessage(), HttpServletResponse.SC_BAD_REQUEST, response);
+    }
+
+    private void doHandleMissedParameterException(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Throwable exception = (Throwable) request.getAttribute("javax.servlet.error.exception");
         writeErrorJsonToResponse(exception.getMessage(), HttpServletResponse.SC_BAD_REQUEST, response);
     }

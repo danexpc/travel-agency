@@ -6,6 +6,7 @@ import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.ScheduleRequestDto;
 import com.danexpc.agency.dto.response.ScheduleResponseDto;
 import com.danexpc.agency.entity.ScheduleModel;
+import com.danexpc.agency.helpers.Pagination;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -39,8 +40,8 @@ public class ScheduleService {
     }
 
     @SneakyThrows
-    public List<ScheduleResponseDto> getAllSchedules() {
-        List<ScheduleModel> models = scheduleDao.findAll();
+    public List<ScheduleResponseDto> getAllSchedules(Pagination pagination) {
+        List<ScheduleModel> models = scheduleDao.findAll(pagination);
 
         return models.stream().parallel().map(ScheduleResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }

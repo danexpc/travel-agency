@@ -6,6 +6,7 @@ import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.TourRequestDto;
 import com.danexpc.agency.dto.response.TourResponseDto;
 import com.danexpc.agency.entity.TourModel;
+import com.danexpc.agency.helpers.Pagination;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -37,8 +38,8 @@ public class TourService {
     }
 
     @SneakyThrows
-    public List<TourResponseDto> getAllTours() {
-        List<TourModel> models = tourDao.findAll();
+    public List<TourResponseDto> getAllTours(Pagination pagination) {
+        List<TourModel> models = tourDao.findAll(pagination);
 
         return models.stream().parallel().map(TourResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }

@@ -2,6 +2,8 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.TourRequestDto;
 import com.danexpc.agency.dto.response.TourResponseDto;
+import com.danexpc.agency.helpers.Pagination;
+import com.danexpc.agency.helpers.PaginationExtractor;
 import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.TourService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,10 +77,11 @@ public class TourController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Pagination pagination = PaginationExtractor.extractPaginationObjectFromRequest(request);
+
+        List<TourResponseDto> dtos = tourService.getAllTours(pagination);
+
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<TourResponseDto> dtos = tourService.getAllTours();
-
         String json = objectMapper.writeValueAsString(dtos);
 
         out.print(json);

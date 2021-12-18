@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.entity.TourModel;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class TourDaoImpl implements TourDao {
 
     private final String FIND_TOUR_BY_ID = "SELECT id, name, description, type FROM tours WHERE id=?;";
 
-    private final String FIND_ALL_TOURS = "SELECT id, name, description, type FROM tours;";
+    private final String FIND_ALL_TOURS = "SELECT id, name, description, type FROM tours limit ? offset ?;";
 
     private final String DELETE_TOUR_BY_ID = "DELETE FROM tours WHERE id=?;";
 
@@ -84,7 +85,7 @@ public class TourDaoImpl implements TourDao {
     public TourModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
-        TourModel resModel = null;
+        TourModel resModel;
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_TOUR_BY_ID)){
             preparedStatement.setInt(1, id);
@@ -103,12 +104,14 @@ public class TourDaoImpl implements TourDao {
     }
 
     @Override
-    public List<TourModel> findAll() {
+    public List<TourModel> findAll(Pagination pagination) {
         ResultSet resultSet;
 
         List<TourModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_TOURS)){
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

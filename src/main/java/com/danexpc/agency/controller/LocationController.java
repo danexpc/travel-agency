@@ -2,6 +2,8 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.LocationRequestDto;
 import com.danexpc.agency.dto.response.LocationResponseDto;
+import com.danexpc.agency.helpers.Pagination;
+import com.danexpc.agency.helpers.PaginationExtractor;
 import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.LocationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,10 +77,11 @@ public class LocationController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Pagination pagination = PaginationExtractor.extractPaginationObjectFromRequest(request);
+
+        List<LocationResponseDto> dtos = locationService.getAllLocations(pagination);
+
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<LocationResponseDto> dtos = locationService.getAllLocations();
-
         String json = objectMapper.writeValueAsString(dtos);
 
         out.print(json);

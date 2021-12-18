@@ -2,6 +2,8 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.ScheduleRequestDto;
 import com.danexpc.agency.dto.response.ScheduleResponseDto;
+import com.danexpc.agency.helpers.Pagination;
+import com.danexpc.agency.helpers.PaginationExtractor;
 import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,10 +81,11 @@ public class ScheduleController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Pagination pagination = PaginationExtractor.extractPaginationObjectFromRequest(request);
+
+        List<ScheduleResponseDto> dtos = scheduleService.getAllSchedules(pagination);
+
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<ScheduleResponseDto> dtos = scheduleService.getAllSchedules();
-
         String json = objectMapper.writeValueAsString(dtos);
 
         out.print(json);

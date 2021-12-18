@@ -6,6 +6,7 @@ import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.HotelRequestDto;
 import com.danexpc.agency.dto.response.HotelResponseDto;
 import com.danexpc.agency.entity.HotelModel;
+import com.danexpc.agency.helpers.Pagination;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class HotelService {
     }
 
     @SneakyThrows
-    public List<HotelResponseDto> getAllHotels() {
-        List<HotelModel> models = hotelDao.findAll();
+    public List<HotelResponseDto> getAllHotels(Pagination pagination) {
+        List<HotelModel> models = hotelDao.findAll(pagination);
 
         return models.stream().parallel().map(HotelResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }

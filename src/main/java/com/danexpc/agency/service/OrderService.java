@@ -6,6 +6,7 @@ import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.OrderRequestDto;
 import com.danexpc.agency.dto.response.OrderResponseDto;
 import com.danexpc.agency.entity.OrderModel;
+import com.danexpc.agency.helpers.Pagination;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class OrderService {
     }
 
     @SneakyThrows
-    public List<OrderResponseDto> getAllOrders() {
-        List<OrderModel> models = orderDao.findAll();
+    public List<OrderResponseDto> getAllOrders(Pagination pagination) {
+        List<OrderModel> models = orderDao.findAll(pagination);
 
         return models.stream().parallel().map(OrderResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }

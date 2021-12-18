@@ -6,6 +6,7 @@ import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.UserRequestDto;
 import com.danexpc.agency.dto.response.UserResponseDto;
 import com.danexpc.agency.entity.UserModel;
+import com.danexpc.agency.helpers.Pagination;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -35,8 +36,8 @@ public class UserService {
     }
 
     @SneakyThrows
-    public List<UserResponseDto> getAllUsers() {
-        List<UserModel> models = userDao.findAll();
+    public List<UserResponseDto> getAllUsers(Pagination pagination) {
+        List<UserModel> models = userDao.findAll(pagination);
 
         return models.stream().parallel().map(UserResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }

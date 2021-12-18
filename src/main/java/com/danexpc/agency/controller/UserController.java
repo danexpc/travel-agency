@@ -2,6 +2,8 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.UserRequestDto;
 import com.danexpc.agency.dto.response.UserResponseDto;
+import com.danexpc.agency.helpers.Pagination;
+import com.danexpc.agency.helpers.PaginationExtractor;
 import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,10 +77,11 @@ public class UserController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Pagination pagination = PaginationExtractor.extractPaginationObjectFromRequest(request);
+
+        List<UserResponseDto> dtos = userService.getAllUsers(pagination);
+
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<UserResponseDto> dtos = userService.getAllUsers();
-
         String json = objectMapper.writeValueAsString(dtos);
 
         out.print(json);

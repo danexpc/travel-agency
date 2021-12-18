@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.entity.OrderModel;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class OrderDaoImpl implements OrderDao {
 
     private final String FIND_ORDER_BY_ID = "SELECT id, user_id, schedule_id, status, discount, final_price FROM orders WHERE id=?;";
 
-    private final String FIND_ALL_ORDERS = "SELECT id, user_id, schedule_id, status, discount, final_price FROM orders;";
+    private final String FIND_ALL_ORDERS = "SELECT id, user_id, schedule_id, status, discount, final_price FROM orders limit ? offset ?;";
 
     private final String DELETE_ORDER_BY_ID = "DELETE FROM orders WHERE id=?;";
 
@@ -90,7 +91,7 @@ public class OrderDaoImpl implements OrderDao {
     public OrderModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
-        OrderModel resModel = null;
+        OrderModel resModel;
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ORDER_BY_ID)) {
             preparedStatement.setInt(1, id);
@@ -109,12 +110,14 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderModel> findAll() {
+    public List<OrderModel> findAll(Pagination pagination) {
         ResultSet resultSet;
 
         List<OrderModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_ORDERS)) {
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

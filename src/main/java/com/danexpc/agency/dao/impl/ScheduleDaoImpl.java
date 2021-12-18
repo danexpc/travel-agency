@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.entity.ScheduleModel;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +39,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             " duration, is_on_fire, total_places_qty, remaining_places_qty FROM schedules WHERE id=?;";
 
     private final String FIND_ALL_SCHEDULES = "SELECT id, tour_id, start_location_id, hotel_id, price, departure_date," +
-            " duration, is_on_fire, total_places_qty, remaining_places_qty FROM schedules;";
+            " duration, is_on_fire, total_places_qty, remaining_places_qty FROM schedules limit ? offset ?;";
 
     private final String DELETE_SCHEDULE_BY_ID = "DELETE FROM schedules WHERE id=?;";
 
@@ -108,7 +109,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
     public ScheduleModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
-        ScheduleModel resModel = null;
+        ScheduleModel resModel;
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_SCHEDULE_BY_ID)) {
             preparedStatement.setInt(1, id);
@@ -127,12 +128,14 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
-    public List<ScheduleModel> findAll() {
+    public List<ScheduleModel> findAll(Pagination pagination) {
         ResultSet resultSet;
 
         List<ScheduleModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SCHEDULES)) {
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

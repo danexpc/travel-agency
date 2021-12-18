@@ -8,6 +8,7 @@ import com.danexpc.agency.exceptions.EntityNotFoundException;
 import com.danexpc.agency.exceptions.UniqueViolationException;
 import com.danexpc.agency.exceptions.UnprocessableEntityException;
 import com.danexpc.agency.entity.LocationModel;
+import com.danexpc.agency.helpers.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class LocationDaoImpl implements LocationDao {
 
     private final String FIND_LOCATION_BY_ID = "SELECT id, note, address, street, city, country FROM locations WHERE id=?;";
 
-    private final String FIND_ALL_LOCATIONS = "SELECT id, note, address, street, city, country FROM locations;";
+    private final String FIND_ALL_LOCATIONS = "SELECT id, note, address, street, city, country FROM locations limit ? offset ?;";
 
     private final String DELETE_LOCATION_BY_ID = "DELETE FROM locations WHERE id=?;";
 
@@ -90,7 +91,7 @@ public class LocationDaoImpl implements LocationDao {
     public LocationModel findById(Integer id) throws EntityNotFoundException {
         ResultSet resultSet;
 
-        LocationModel resModel = null;
+        LocationModel resModel;
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_LOCATION_BY_ID)) {
             preparedStatement.setInt(1, id);
@@ -109,12 +110,14 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public List<LocationModel> findAll() {
+    public List<LocationModel> findAll(Pagination pagination) {
         ResultSet resultSet;
 
         List<LocationModel> resModel = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_LOCATIONS)){
+            preparedStatement.setInt(1, pagination.getLimit());
+            preparedStatement.setInt(2, pagination.getOffset());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

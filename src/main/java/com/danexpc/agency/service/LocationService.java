@@ -6,6 +6,7 @@ import com.danexpc.agency.dao.impl.DaoSingletonFactoryImpl;
 import com.danexpc.agency.dto.request.LocationRequestDto;
 import com.danexpc.agency.dto.response.LocationResponseDto;
 import com.danexpc.agency.entity.LocationModel;
+import com.danexpc.agency.helpers.Pagination;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class LocationService {
     }
 
     @SneakyThrows
-    public List<LocationResponseDto> getAllLocations() {
-        List<LocationModel> models = locationDao.findAll();
+    public List<LocationResponseDto> getAllLocations(Pagination pagination) {
+        List<LocationModel> models = locationDao.findAll(pagination);
 
         return models.stream().parallel().map(LocationResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }

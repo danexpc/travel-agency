@@ -2,6 +2,8 @@ package com.danexpc.agency.controller;
 
 import com.danexpc.agency.dto.request.PaymentRequestDto;
 import com.danexpc.agency.dto.response.PaymentResponseDto;
+import com.danexpc.agency.helpers.Pagination;
+import com.danexpc.agency.helpers.PaginationExtractor;
 import com.danexpc.agency.service.ApiRequestValidationService;
 import com.danexpc.agency.service.PaymentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,10 +81,11 @@ public class PaymentController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        Pagination pagination = PaginationExtractor.extractPaginationObjectFromRequest(request);
+
+        List<PaymentResponseDto> dtos = paymentService.getAllPayments(pagination);
+
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<PaymentResponseDto> dtos = paymentService.getAllPayments();
-
         String json = objectMapper.writeValueAsString(dtos);
 
         out.print(json);

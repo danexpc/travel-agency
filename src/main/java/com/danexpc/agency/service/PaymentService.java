@@ -9,6 +9,7 @@ import com.danexpc.agency.dto.request.PaymentRequestDto;
 import com.danexpc.agency.dto.response.OrderResponseDto;
 import com.danexpc.agency.dto.response.PaymentResponseDto;
 import com.danexpc.agency.entity.PaymentModel;
+import com.danexpc.agency.helpers.Pagination;
 import com.danexpc.agency.rmq.NotificationsSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,8 +56,8 @@ public class PaymentService {
     }
 
     @SneakyThrows
-    public List<PaymentResponseDto> getAllPayments() {
-        List<PaymentModel> models = paymentDao.findAll();
+    public List<PaymentResponseDto> getAllPayments(Pagination pagination) {
+        List<PaymentModel> models = paymentDao.findAll(pagination);
 
         return models.stream().parallel().map(PaymentResponseDto::fromModel).collect(Collectors.toUnmodifiableList());
     }
