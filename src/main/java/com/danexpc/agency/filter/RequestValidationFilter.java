@@ -24,21 +24,21 @@ public class RequestValidationFilter implements Filter {
     private static final String HEADER_AUTH_PREFIX = "Bearer ";
     private static final String HEADER_AUTH = "Authorization";
 
-    private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login", "/auth/register", "/auth/refresh-token", "/tours", "/tours/([0-9]+)(/?).*", "/schedules", "/schedules/([0-9]+)(/?).*", "/payments");
+    private static final Set<String> ALLOWED_PATHS = Set.of("/auth/login", "/auth/register", "/auth/refresh-token", "/tours", "/tours/([0-9]+)(/?).*", "/schedules", "/schedules/([0-9]+)(/?).*");
 
     private static final Map<HttpMethod, List<String>> ALLOWED_PATHS_FOR_CLIENT = Map.of(
             HttpMethod.GET, List.of("/users/([0-9]+)/orders(/?).*", "/users/([0-9]+)/info"),
-            HttpMethod.POST, List.of("/orders"),
+            HttpMethod.POST, List.of("/orders", "/payments"),
             HttpMethod.PUT, List.of(),
-            HttpMethod.PATCH, List.of(),
-            HttpMethod.DELETE, List.of()
+            HttpMethod.PATCH, List.of("/users/([0-9]+)"),
+            HttpMethod.DELETE, List.of("/orders/([0-9]+)")
     );
 
     private static final Map<HttpMethod, List<String>> ALLOWED_PATHS_FOR_MANAGER = Map.of(
-            HttpMethod.GET, List.of(),
+            HttpMethod.GET, List.of("/users/([0-9]+)/orders(/?).*", "/orders", "/orders/([0-9]+)", "/payments", "/payments/([0-9]+)"),
             HttpMethod.POST, List.of(),
             HttpMethod.PUT, List.of(),
-            HttpMethod.PATCH, List.of(),
+            HttpMethod.PATCH, List.of("/orders/([0-9]+)", "/schedules/([0-9]+)"),
             HttpMethod.DELETE, List.of()
     );
 
