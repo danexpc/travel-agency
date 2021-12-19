@@ -1,5 +1,8 @@
 package com.danexpc.agency.dao;
 
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -7,30 +10,39 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@Slf4j
 public class ConnectionPool {
 
-    private static final ConnectionPool instance;
+    private static ConnectionPool instance;
 
-    static {
-        try {
+    private DataSource ds;
+
+    private ConnectionPool() {
+    }
+
+    @SneakyThrows
+    public static synchronized ConnectionPool getInstance() {
+        if (instance == null) {
             instance = new ConnectionPool();
-        } catch (NamingException e) {
-            throw new IllegalStateException("Failed to create a connection pool", e);
         }
-    }
-
-    private final DataSource ds;
-
-    private ConnectionPool() throws NamingException {
-        Context cxt = new InitialContext();
-        ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/agency");
-    }
-
-    public static ConnectionPool getInstance() {
         return instance;
     }
 
-    public Connection getConnection() throws SQLException {
-        return ds.getConnection();
+    public synchronized Connection getConnection() throws SQLException {
+        Connection con = null;
+
+        try {
+            if (ds == null) {
+                Context cxt = new InitialContext();
+
+                ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/agency");
+            }
+
+            con = ds.getConnection();
+        } catch (NamingException e) {
+            log.error("Error with context.", e);
+        }
+
+        return con;
     }
 }
