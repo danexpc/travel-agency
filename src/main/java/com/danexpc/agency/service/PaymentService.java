@@ -23,22 +23,16 @@ public class PaymentService {
 
     private final PaymentDao paymentDao = factory.getPaymentDao();
 
-    private final OrderService orderService = new OrderService();
+    private final NotificationService notificationService = new NotificationService();
 
-    public void createPayment(PaymentRequestDto dto) throws JsonProcessingException {
+    public void createPayment(PaymentRequestDto dto) {
         PaymentModel model = dto.buildModel();
 
         // payment logic
 
         paymentDao.create(model);
 
-        OrderResponseDto order = orderService.getOrderById(dto.getOrderId());
-        NotificationDto notificationDto = NotificationDtoBuilder.build(dto, order);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String notification = objectMapper.writeValueAsString(notificationDto);
-
-        NotificationsSender.send(notification);
+        notificationService.sendMessage(dto);
     }
 
     public void updatePayment(Integer id, PaymentRequestDto dto) {
